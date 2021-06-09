@@ -47,7 +47,6 @@ function Login() {
       dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
       push(ROUTES.MAIN);
     } catch (err) {
-      console.log(err.message);
       toast({
         message: err.message,
         type: "error",
