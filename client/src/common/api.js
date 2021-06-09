@@ -1,8 +1,9 @@
 import axios from "axios";
+import { config } from "./config";
 
 // use only for image upload
 const api = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_REST_URL,
+  baseURL: config.SERVER_URL,
 });
 
 export default api;
