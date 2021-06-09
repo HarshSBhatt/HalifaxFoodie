@@ -13,9 +13,7 @@ const getLoggedInUser = () => {
 };
 
 const getUserId = () => {
-  return localStorage.getItem(USER_ID)
-    ? parseInt(localStorage.getItem(USER_ID))
-    : "";
+  return localStorage.getItem(USER_ID) ? localStorage.getItem(USER_ID) : "";
 };
 
 const initialState = {
@@ -70,8 +68,7 @@ function AppContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getToken = () => {
-    // TODO: Replace "Demo" with null after integration of auth functionality
-    return localStorage.getItem(TOKEN) || "Demo";
+    return localStorage.getItem(TOKEN) || null;
   };
 
   // eslint-disable-next-line

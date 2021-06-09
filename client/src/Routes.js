@@ -9,6 +9,8 @@ import App from "app/App";
 import Login from "modules/auth/Login";
 import Logout from "modules/auth/Logout";
 import PrivateRoute from "./PrivateRoute";
+import Signup from "modules/auth/Signup";
+import ForgetPassword from "modules/auth/ForgetPassword";
 
 const Routes = () => {
   const { initializeAuth } = useContext(AppContext);
@@ -22,6 +24,8 @@ const Routes = () => {
     <Router>
       <Switch>
         <Route exact path={ROUTES.LOGIN} component={Login} />
+        <Route exact path={ROUTES.REGISTER} component={Signup} />
+        <Route exact path={ROUTES.FORGET_PASSWORD} component={ForgetPassword} />
         <Route exact path={ROUTES.LOGOUT} component={Logout} />
         <PrivateRoute path="/" component={App} />
       </Switch>
