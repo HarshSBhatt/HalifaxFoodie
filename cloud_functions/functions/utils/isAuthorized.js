@@ -3,7 +3,7 @@ exports.isAuthorized = ({ hasRole, allowSameUser }) => {
     const { role, email, uid } = res.locals;
     const { id } = req.params;
 
-    if (email === "your-root-user-email@domain.com") return next();
+    if (email === "harshsamir98@gmail.com") return next();
 
     if (allowSameUser && id && uid === id) return next();
 

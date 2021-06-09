@@ -5,8 +5,8 @@ const { create, all, get, patch, remove } = require("./controller");
 exports.routesConfig = (app) => {
   app.post(
     "/users",
-    isAuthenticated,
-    isAuthorized({ hasRole: ["admin", "manager"] }),
+    // isAuthenticated,
+    // isAuthorized({ hasRole: ["admin", "manager"] }),
     create
   );
   // lists all users
