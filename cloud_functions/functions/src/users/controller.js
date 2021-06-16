@@ -1,11 +1,27 @@
 const admin = require("firebase-admin");
 const pool = require("../../config/database");
+const { handleError } = require("../../utils/handleError");
 
 exports.create = async (req, res) => {
   try {
-    const { displayName, password, email, phoneNumber, role } = req.body;
+    const {
+      displayName,
+      password,
+      email,
+      phoneNumber,
+      role,
+      questionId,
+      answer,
+    } = req.body;
 
-    if (!displayName || !password || !email || !role) {
+    if (
+      !displayName ||
+      !password ||
+      !email ||
+      !role ||
+      !questionId ||
+      !answer
+    ) {
       return res.status(400).json({ message: "Missing fields" });
     }
 
@@ -29,11 +45,22 @@ exports.create = async (req, res) => {
         user.providerData[0].providerId,
         user.metadata.creationTime,
       ],
-      (err, results, fields) => {
+      async (err) => {
         if (err) {
+          await admin.auth().deleteUser(uid);
           return handleError(res, err);
         }
-        return res.status(201).json({ uid });
+        pool.query(
+          `insert into user_questions(user_id, question_id, answer) values(?,?,?)`,
+          [uid, questionId, answer],
+          async (err) => {
+            if (err) {
+              await admin.auth().deleteUser(uid);
+              return handleError(res, err);
+            }
+            return res.status(201).json({ uid });
+          }
+        );
       }
     );
   } catch (err) {
@@ -101,8 +128,4 @@ const mapUser = (user) => {
     lastSignInTime: user.metadata.lastSignInTime,
     creationTime: user.metadata.creationTime,
   };
-};
-
-const handleError = (res, err) => {
-  return res.status(500).json({ code: err.code, message: err.message });
 };

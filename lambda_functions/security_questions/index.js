@@ -18,7 +18,7 @@ exports.handler = (event, context, callback) => {
       callback(err);
     }
     connection.query(
-      `select uq.question_id, q.question from user_questions uq inner join questions q on uq.question_id=q.question_id where uq.user_id = ?`,
+      `select uq.question_id, q.question, uq.answer from user_questions uq inner join questions q on uq.question_id=q.question_id where uq.user_id = ?`,
       [event.uid],
       (err, results, fields) => {
         connection.release();

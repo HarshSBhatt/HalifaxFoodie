@@ -3,14 +3,14 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const authenticate = require("./utils/isAuthenticated");
-const { db } = require("./utils/admin");
-const { routesConfig } = require("./src/users/routes-config");
+const { userRoutes } = require("./src/users/user-routes");
+const { questionRoutes } = require("./src/questions/question-routes");
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-routesConfig(app);
+userRoutes(app);
+questionRoutes(app);
 
 exports.api = functions.https.onRequest(app);
