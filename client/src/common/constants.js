@@ -2,6 +2,7 @@
 export const ROUTES = {
   MAIN: "/",
   LOGIN: "/login",
+  SECURITY_QUESTION: "/security-question",
   LOGOUT: "/logout",
   REGISTER: "/register",
   FORGET_PASSWORD: "/forget-password",

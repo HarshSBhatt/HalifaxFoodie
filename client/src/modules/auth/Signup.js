@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 //! Ant Imports
 
-import { Form, Input, Button, Typography } from "antd";
+import { Form, Input, Button, Typography, Select } from "antd";
 
 //! Ant Icons
 
@@ -19,15 +19,17 @@ import { config } from "common/config";
 import { isEmpty } from "lodash";
 
 const { Title } = Typography;
+const { Option } = Select;
 
 function Signup() {
   const {
     state: { authenticated },
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
   const { push } = useHistory();
   const onFinish = async (values) => {
-    const { displayName, email, password } = values;
+    const { displayName, email, password, questionId, answer } = values;
     setLoading(true);
     try {
       const userDetails = {
@@ -35,6 +37,8 @@ function Signup() {
         email,
         password,
         role: "user",
+        questionId,
+        answer: answer.toLowerCase(),
       };
       const response = await api.post(
         `${config.CLOUD_FUNCTION_URL}/users`,
@@ -54,12 +58,34 @@ function Signup() {
     setLoading(false);
   };
 
+  const fetchQuestions = async () => {
+    try {
+      const response = await api.get(`${config.CLOUD_FUNCTION_URL}/questions`);
+      setQuestions(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (authenticated) {
       push("/");
     }
+    fetchQuestions();
     // eslint-disable-next-line
   }, [authenticated]);
+
+  const renderQuestions =
+    questions &&
+    questions.length &&
+    questions.map((securityQuestion) => {
+      const { question_id, question } = securityQuestion;
+      return (
+        <Option key={question_id} value={question_id}>
+          {question}
+        </Option>
+      );
+    });
 
   return (
     <div className="login">
@@ -139,6 +165,23 @@ function Signup() {
             placeholder="Confirm Password"
           />
         </Form.Item>
+        <Form.Item
+          name="questionId"
+          rules={[{ required: true, message: "Please select question!" }]}
+        >
+          <Select placeholder="Select security question">
+            {renderQuestions}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="answer"
+          rules={[
+            { required: true, message: "Please enter answer" },
+            { min: 3, message: "At least 3 characters required" },
+          ]}
+        >
+          <Input placeholder="Answer" />
+        </Form.Item>
         <Form.Item>
           <Button
             loading={loading}
@@ -148,6 +191,9 @@ function Signup() {
           >
             Register
           </Button>
+          <div className="reg-user-actions">
+            <Link to={ROUTES.LOGIN}>Already a user!</Link>
+          </div>
         </Form.Item>
       </Form>
     </div>

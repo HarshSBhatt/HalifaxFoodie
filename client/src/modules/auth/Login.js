@@ -14,7 +14,6 @@ import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { auth } from "_firebase";
 import { toast } from "common/utils";
 import { AppContext } from "AppContext";
-import * as ActionTypes from "common/actionTypes";
 import { ROUTES } from "common/constants";
 
 const { Title } = Typography;
@@ -22,7 +21,6 @@ const { Title } = Typography;
 function Login() {
   const {
     state: { authenticated },
-    dispatch,
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const { push } = useHistory();
@@ -41,11 +39,7 @@ function Login() {
         metadata: user.metadata,
         token,
       };
-      dispatch({ type: ActionTypes.SET_TOKEN, data: token });
-      dispatch({ type: ActionTypes.SET_CURRENT_USER, data: currentUser });
-      dispatch({ type: ActionTypes.SET_USER_ID, data: user.uid });
-      dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
-      push(ROUTES.MAIN);
+      push(ROUTES.SECURITY_QUESTION, { currentUser });
     } catch (err) {
       toast({
         message: err.message,
@@ -67,12 +61,7 @@ function Login() {
       <Title level={3} className="sdp-text-strong">
         Halifax Foodie
       </Title>
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-      >
+      <Form name="normal_login" className="login-form" onFinish={onFinish}>
         <Form.Item
           name="email"
           rules={[
@@ -105,7 +94,7 @@ function Login() {
             htmlType="submit"
             className="login-form-button"
           >
-            Log in
+            Next
           </Button>
           <div className="user-actions">
             <Link to={ROUTES.FORGET_PASSWORD}>Forget Password?</Link>
