@@ -33,7 +33,6 @@ exports.create = async (req, res) => {
         if (err) {
           return handleError(res, err);
         }
-        console.log("R: ", results);
         return res.status(201).json({ uid });
       }
     );
