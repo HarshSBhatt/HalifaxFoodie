@@ -29,13 +29,22 @@ function Signup() {
   const [questions, setQuestions] = useState([]);
   const { push } = useHistory();
   const onFinish = async (values) => {
-    const { displayName, email, password, questionId, answer } = values;
+    const {
+      displayName,
+      email,
+      password,
+      prefix,
+      phoneNumber,
+      questionId,
+      answer,
+    } = values;
     setLoading(true);
     try {
       const userDetails = {
         displayName,
-        email,
         password,
+        email,
+        phoneNumber: `${prefix}${phoneNumber}`,
         role: "user",
         questionId,
         answer: answer.toLowerCase(),
@@ -87,6 +96,15 @@ function Signup() {
       );
     });
 
+  const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select style={{ width: 70 }}>
+        <Option value="91">+91</Option>
+        <Option value="1">+1</Option>
+      </Select>
+    </Form.Item>
+  );
+
   return (
     <div className="login">
       <Title level={3} className="sdp-text-strong">
@@ -95,7 +113,7 @@ function Signup() {
       <Form
         name="normal_login"
         className="login-form"
-        initialValues={{ remember: true }}
+        initialValues={{ prefix: "+91" }}
         onFinish={onFinish}
       >
         <Form.Item
@@ -164,6 +182,14 @@ function Signup() {
             type="password"
             placeholder="Confirm Password"
           />
+        </Form.Item>
+        <Form.Item
+          name="phoneNumber"
+          rules={[
+            { required: true, message: "Please input your phone number!" },
+          ]}
+        >
+          <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
         </Form.Item>
         <Form.Item
           name="questionId"

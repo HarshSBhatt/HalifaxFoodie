@@ -23,10 +23,11 @@ function SecurityQuestion() {
     dispatch,
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
+  const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState({});
   const { push, location } = useHistory();
   const onFinish = async (values) => {
     const { answer } = values;
-    if (answer === "dummy") {
+    if (answer.toLowerCase() === securityQuestionAnswer.answer) {
       if (isEmpty(location.state.currentUser)) {
         push(ROUTES.LOGIN);
       } else {
@@ -35,7 +36,6 @@ function SecurityQuestion() {
         dispatch({ type: ActionTypes.SET_CURRENT_USER, data: currentUser });
         dispatch({ type: ActionTypes.SET_USER_ID, data: currentUser.uid });
         dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
-        push(ROUTES.MAIN);
       }
     } else {
       toast({
@@ -52,24 +52,32 @@ function SecurityQuestion() {
     } else {
       const { uid } = location.state.currentUser;
       try {
-        // TODO: Not working
-        const response = await api.get(
+        const response = await api.post(
           "https://xhdt9h76vl.execute-api.us-east-1.amazonaws.com/Test/security-questions",
           { uid }
         );
-        console.log(response.data);
+        setSecurityQuestionAnswer(response.data);
       } catch (error) {
-        console.log(error);
+        toast({
+          message: "Something went wrong",
+          type: "error",
+        });
       }
     }
     setLoading(false);
   };
 
   useEffect(() => {
+    let mounted = true;
     if (authenticated) {
-      push("/");
+      if (mounted) {
+        push("/");
+      }
     }
     fetchAnswerOfUser();
+    return () => {
+      mounted = false;
+    };
     // eslint-disable-next-line
   }, [authenticated]);
 
@@ -79,7 +87,7 @@ function SecurityQuestion() {
       <Title level={3} className="sdp-text-strong">
         Security Question
       </Title>
-      <Title level={5}>This is question</Title>
+      <Title level={5}>{securityQuestionAnswer.question}</Title>
       <Form name="normal_login" className="login-form" onFinish={onFinish}>
         <Form.Item
           name="answer"
