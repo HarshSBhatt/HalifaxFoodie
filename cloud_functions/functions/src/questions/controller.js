@@ -1,9 +1,9 @@
-const pool = require("../../config/database");
 const { handleError } = require("../../utils/handleError");
+const { getSecurityQuestions } = require("./service");
 
 exports.getAllQuestions = async (req, res) => {
   try {
-    pool.query(`select * from questions`, [], (err, results, fields) => {
+    getSecurityQuestions((err, results) => {
       if (err) {
         return handleError(res, err);
       }

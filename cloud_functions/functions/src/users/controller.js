@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
-const pool = require("../../config/database");
 const { handleError } = require("../../utils/handleError");
+const { mapQuestionToUser } = require("../questions/service");
+const { createUser } = require("./service");
 
 exports.create = async (req, res) => {
   try {
@@ -34,35 +35,44 @@ exports.create = async (req, res) => {
 
     await admin.auth().setCustomUserClaims(uid, { role });
 
-    pool.query(
-      `insert into users(uid, email, display_name, phone_number, photo_url, provider_id, created_at) values(?,?,?,?,?,?,?)`,
-      [
-        uid,
-        user.email,
-        user.displayName,
-        user.phoneNumber,
-        user.photoURL,
-        user.providerData[0].providerId,
-        user.metadata.creationTime,
-      ],
-      async (err) => {
+    const userData = [
+      uid,
+      user.email,
+      user.displayName,
+      user.phoneNumber,
+      user.photoURL,
+      user.providerData[0].providerId,
+      user.metadata.creationTime,
+    ];
+
+    createUser(userData, async (err, results) => {
+      if (err) {
+        await admin.auth().deleteUser(uid);
+        return handleError(res, err);
+      }
+      if (!results) {
+        const error = {
+          code: "Issue to fetch result",
+          message: "Something went wrong",
+        };
+        return handleError(res, error);
+      }
+      const userQuestionData = [uid, questionId, answer];
+      mapQuestionToUser(userQuestionData, async (err, results) => {
         if (err) {
           await admin.auth().deleteUser(uid);
           return handleError(res, err);
         }
-        pool.query(
-          `insert into user_questions(user_id, question_id, answer) values(?,?,?)`,
-          [uid, questionId, answer],
-          async (err) => {
-            if (err) {
-              await admin.auth().deleteUser(uid);
-              return handleError(res, err);
-            }
-            return res.status(201).json({ uid });
-          }
-        );
-      }
-    );
+        if (!results) {
+          const error = {
+            code: "Issue to fetch result",
+            message: "Something went wrong",
+          };
+          return handleError(res, error);
+        }
+        return res.status(201).json({ uid });
+      });
+    });
   } catch (err) {
     return handleError(res, err);
   }
