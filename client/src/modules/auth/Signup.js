@@ -58,9 +58,8 @@ function Signup() {
         push(ROUTES.LOGIN);
       }
     } catch (err) {
-      console.log(err);
       toast({
-        message: err.message,
+        message: err.response.data.message,
         type: "error",
       });
     }
@@ -189,7 +188,11 @@ function Signup() {
             { required: true, message: "Please input your phone number!" },
           ]}
         >
-          <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+          <Input
+            placeholder="Phone Number"
+            addonBefore={prefixSelector}
+            style={{ width: "100%" }}
+          />
         </Form.Item>
         <Form.Item
           name="questionId"
