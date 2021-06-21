@@ -7,14 +7,14 @@ import { Form, Input, Button, Typography } from "antd";
 
 //! Ant Icons
 
-import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { MailOutlined } from "@ant-design/icons";
 
 //! User Files
 
-import { auth } from "_firebase";
 import { toast } from "common/utils";
 import { AppContext } from "AppContext";
 import { ROUTES } from "common/constants";
+import { auth } from "_firebase";
 
 const { Title } = Typography;
 
@@ -25,21 +25,14 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { push } = useHistory();
   const onFinish = async (values) => {
-    const { email, password } = values;
+    const { email } = values;
     setLoading(true);
     try {
-      const userAuth = await auth.signInWithEmailAndPassword(email, password);
-      const { user } = userAuth;
-      const token = await user.getIdToken();
-      const currentUser = {
-        displayName: user.displayName,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        uid: user.uid,
-        metadata: user.metadata,
-        token,
-      };
-      push(ROUTES.SECURITY_QUESTION, { currentUser });
+      await auth.sendPasswordResetEmail(email);
+      toast({
+        message: "Reset link sent successfully",
+        type: "success",
+      });
     } catch (err) {
       toast({
         message: err.message,
@@ -59,32 +52,26 @@ function Login() {
   return (
     <div className="login">
       <Title level={3} className="sdp-text-strong">
-        Halifax Foodie
+        Reset Password
       </Title>
-      <Form name="normal_login" className="login-form" onFinish={onFinish}>
+      <Form
+        name="normal_forgot_password"
+        className="forgot-password-form form"
+        onFinish={onFinish}
+      >
         <Form.Item
           name="email"
           rules={[
+            { required: true, message: "This field is required" },
             {
               type: "email",
-              message: "The input is not valid a email!",
+              message: "Entered email is not a valid email",
             },
-            { required: true, message: "Please enter your email" },
           ]}
         >
           <Input
             prefix={<MailOutlined className="site-form-item-icon" />}
-            placeholder="Email"
-          />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: "Please enter your password!" }]}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
+            placeholder="Enter your email"
           />
         </Form.Item>
         <Form.Item>
@@ -92,13 +79,13 @@ function Login() {
             loading={loading}
             type="primary"
             htmlType="submit"
-            className="login-form-button"
+            className="forgot-password-form-button button"
           >
-            Next
+            Send Reset Password Link
           </Button>
           <div className="user-actions">
-            <Link to={ROUTES.FORGET_PASSWORD}>Forget Password?</Link>
-            <Link to={ROUTES.REGISTER}>Register Now!</Link>
+            <div />
+            <Link to={ROUTES.LOGIN}>Login now</Link>
           </div>
         </Form.Item>
       </Form>

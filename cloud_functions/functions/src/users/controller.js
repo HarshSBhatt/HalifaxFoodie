@@ -1,11 +1,28 @@
 const admin = require("firebase-admin");
-const pool = require("../../config/database");
+const { handleError } = require("../../utils/handleError");
+const { mapQuestionToUser } = require("../questions/service");
+const { createUser } = require("./service");
 
 exports.create = async (req, res) => {
   try {
-    const { displayName, password, email, phoneNumber, role } = req.body;
+    const {
+      displayName,
+      password,
+      email,
+      phoneNumber,
+      role,
+      questionId,
+      answer,
+    } = req.body;
 
-    if (!displayName || !password || !email || !role) {
+    if (
+      !displayName ||
+      !password ||
+      !email ||
+      !role ||
+      !questionId ||
+      !answer
+    ) {
       return res.status(400).json({ message: "Missing fields" });
     }
 
@@ -18,24 +35,44 @@ exports.create = async (req, res) => {
 
     await admin.auth().setCustomUserClaims(uid, { role });
 
-    pool.query(
-      `insert into users(uid, email, display_name, phone_number, photo_url, provider_id, created_at) values(?,?,?,?,?,?,?)`,
-      [
-        uid,
-        user.email,
-        user.displayName,
-        user.phoneNumber,
-        user.photoURL,
-        user.providerData[0].providerId,
-        user.metadata.creationTime,
-      ],
-      (err, results, fields) => {
+    const userData = [
+      uid,
+      user.email,
+      user.displayName,
+      user.phoneNumber,
+      user.photoURL,
+      user.providerData[0].providerId,
+      user.metadata.creationTime,
+    ];
+
+    createUser(userData, async (err, results) => {
+      if (err) {
+        await admin.auth().deleteUser(uid);
+        return handleError(res, err);
+      }
+      if (!results) {
+        const error = {
+          code: "Issue to fetch result",
+          message: "Something went wrong",
+        };
+        return handleError(res, error);
+      }
+      const userQuestionData = [uid, questionId, answer];
+      mapQuestionToUser(userQuestionData, async (err, results) => {
         if (err) {
+          await admin.auth().deleteUser(uid);
           return handleError(res, err);
         }
+        if (!results) {
+          const error = {
+            code: "Issue to fetch result",
+            message: "Something went wrong",
+          };
+          return handleError(res, error);
+        }
         return res.status(201).json({ uid });
-      }
-    );
+      });
+    });
   } catch (err) {
     return handleError(res, err);
   }
@@ -101,8 +138,4 @@ const mapUser = (user) => {
     lastSignInTime: user.metadata.lastSignInTime,
     creationTime: user.metadata.creationTime,
   };
-};
-
-const handleError = (res, err) => {
-  return res.status(500).json({ code: err.code, message: err.message });
 };

@@ -9,7 +9,7 @@ import LoadingOutlined from "@ant-design/icons/LoadingOutlined";
 function Loading() {
   const loadingIcon = <LoadingOutlined spin />;
   return (
-    <div className="cb-loading-wrapper">
+    <div className="sdp-loading-wrapper">
       <Spin size="large" indicator={loadingIcon} />
     </div>
   );

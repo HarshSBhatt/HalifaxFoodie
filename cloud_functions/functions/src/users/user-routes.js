@@ -2,7 +2,7 @@ const { isAuthenticated } = require("../../utils/isAuthenticated");
 const { isAuthorized } = require("../../utils/isAuthorized");
 const { create, all, get, patch, remove } = require("./controller");
 
-exports.routesConfig = (app) => {
+exports.userRoutes = (app) => {
   app.post(
     "/users",
     // isAuthenticated,
