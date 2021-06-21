@@ -10,7 +10,7 @@ import Login from "modules/auth/Login";
 import Logout from "modules/auth/Logout";
 import PrivateRoute from "./PrivateRoute";
 import Signup from "modules/auth/Signup";
-import ForgetPassword from "modules/auth/ForgetPassword";
+import ForgetPassword from "modules/auth/components/ForgetPassword";
 import SecurityQuestion from "modules/auth/components/SecurityQuestion";
 
 const Routes = () => {

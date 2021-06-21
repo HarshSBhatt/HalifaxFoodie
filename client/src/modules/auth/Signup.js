@@ -55,6 +55,10 @@ function Signup() {
       );
       const { data } = response;
       if (data.uid && !isEmpty(data.uid)) {
+        toast({
+          message: "User registered successfully",
+          type: "success",
+        });
         push(ROUTES.LOGIN);
       }
     } catch (err) {
