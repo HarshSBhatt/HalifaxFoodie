@@ -6,16 +6,13 @@ export const ROUTES = {
   LOGOUT: "/logout",
   REGISTER: "/register",
   FORGET_PASSWORD: "/forget-password",
-  USERS_MANAGEMENT: "/users",
-  UPLOAD_VIDEO: "/upload-video",
-  VIDEOS: "/videos",
+  CHAT: "/chat"
 };
 
 /*  Modules */
 export const MODULES = {
-  USERS_MANAGEMENT: "User Management",
-  UPLOAD_VIDEO: "Upload Video",
-  VIDEOS: "Videos",
+  DASHBOARD: "Dashboard",
+  CHAT: "Chat"
 };
 
 /* Authentication */

@@ -10,9 +10,8 @@ import Sider from "antd/lib/layout/Sider";
 
 import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
-import UserOutlined from "@ant-design/icons/UserOutlined";
-import VideoCameraOutlined from "@ant-design/icons/VideoCameraOutlined";
-import UploadOutlined from "@ant-design/icons/UploadOutlined";
+import AppstoreOutlined from "@ant-design/icons/AppstoreOutlined";
+import WechatOutlined from "@ant-design/icons/WechatOutlined";
 
 //! User Files
 
@@ -55,14 +54,11 @@ function AppSidebar() {
           defaultSelectedKeys={[ROUTES.USERS_MANAGEMENT]}
           onSelect={onMenuSelect}
         >
-          <Menu.Item key={ROUTES.USERS_MANAGEMENT} icon={<UserOutlined />}>
-            <span>{MODULES.USERS_MANAGEMENT}</span>
+          <Menu.Item key={ROUTES.MAIN} icon={<AppstoreOutlined />}>
+            <span>{MODULES.DASHBOARD}</span>
           </Menu.Item>
-          <Menu.Item key={ROUTES.VIDEOS} icon={<VideoCameraOutlined />}>
-            <span>{MODULES.VIDEOS}</span>
-          </Menu.Item>
-          <Menu.Item key={ROUTES.UPLOAD_VIDEO} icon={<UploadOutlined />}>
-            <span>{MODULES.UPLOAD_VIDEO}</span>
+          <Menu.Item key={ROUTES.CHAT} icon={<WechatOutlined />}>
+            <span>{MODULES.CHAT}</span>
           </Menu.Item>
         </Menu>
       </div>
