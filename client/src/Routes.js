@@ -10,6 +10,7 @@ import Login from "modules/auth/Login";
 import Logout from "modules/auth/Logout";
 import PrivateRoute from "./PrivateRoute";
 import Signup from "modules/auth/Signup";
+import RestaurantSignup from "modules/auth/RestaurantSignup";
 import ForgetPassword from "modules/auth/components/ForgetPassword";
 import SecurityQuestion from "modules/auth/components/SecurityQuestion";
 
@@ -31,6 +32,11 @@ const Routes = () => {
           component={SecurityQuestion}
         />
         <Route exact path={ROUTES.REGISTER} component={Signup} />
+        <Route
+          exact
+          path={ROUTES.ADMIN_REGISTER}
+          component={RestaurantSignup}
+        />
         <Route exact path={ROUTES.FORGET_PASSWORD} component={ForgetPassword} />
         <Route exact path={ROUTES.LOGOUT} component={Logout} />
         <PrivateRoute path="/" component={App} />

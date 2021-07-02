@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 //! Ant Imports
 
@@ -31,6 +32,7 @@ function Login() {
       const userAuth = await auth.signInWithEmailAndPassword(email, password);
       const { user } = userAuth;
       const token = await user.getIdToken();
+      const decoded = jwtDecode(token);
       const currentUser = {
         displayName: user.displayName,
         email: user.email,
@@ -38,6 +40,7 @@ function Login() {
         uid: user.uid,
         metadata: user.metadata,
         token,
+        role: decoded.role,
       };
       push(ROUTES.SECURITY_QUESTION, { currentUser });
     } catch (err) {

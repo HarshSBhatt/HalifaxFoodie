@@ -50,11 +50,11 @@ function SecurityQuestion() {
     if (isEmpty(location.state.currentUser)) {
       push(ROUTES.LOGIN);
     } else {
-      const { uid } = location.state.currentUser;
+      const { uid, role } = location.state.currentUser;
       try {
         const response = await api.post(
           "https://xhdt9h76vl.execute-api.us-east-1.amazonaws.com/Test/security-questions",
-          { uid }
+          { uid, role }
         );
         setSecurityQuestionAnswer(response.data);
       } catch (error) {

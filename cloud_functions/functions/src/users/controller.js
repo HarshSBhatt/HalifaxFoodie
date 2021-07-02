@@ -35,17 +35,30 @@ exports.create = async (req, res) => {
 
     await admin.auth().setCustomUserClaims(uid, { role });
 
-    const userData = [
-      uid,
-      user.email,
-      user.displayName,
-      user.phoneNumber,
-      user.photoURL,
-      user.providerData[0].providerId,
-      user.metadata.creationTime,
-    ];
+    let userData = [];
+    if (role === "admin") {
+      userData = [
+        uid,
+        user.displayName,
+        user.email,
+        user.phoneNumber,
+        role,
+        user.metadata.creationTime,
+      ];
+    } else {
+      userData = [
+        uid,
+        user.email,
+        user.displayName,
+        user.phoneNumber,
+        user.photoURL,
+        user.providerData[0].providerId,
+        role,
+        user.metadata.creationTime,
+      ];
+    }
 
-    createUser(userData, async (err, results) => {
+    createUser(userData, role, async (err, results) => {
       if (err) {
         await admin.auth().deleteUser(uid);
         return handleError(res, err);
@@ -58,7 +71,7 @@ exports.create = async (req, res) => {
         return handleError(res, error);
       }
       const userQuestionData = [uid, questionId, answer];
-      mapQuestionToUser(userQuestionData, async (err, results) => {
+      mapQuestionToUser(userQuestionData, role, async (err, results) => {
         if (err) {
           await admin.auth().deleteUser(uid);
           return handleError(res, err);
