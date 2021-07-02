@@ -5,14 +5,15 @@ export const ROUTES = {
   SECURITY_QUESTION: "/security-question",
   LOGOUT: "/logout",
   REGISTER: "/register",
+  ADMIN_REGISTER: "/restaurant-signup",
   FORGET_PASSWORD: "/forget-password",
-  CHAT: "/chat"
+  CHAT: "/chat",
 };
 
 /*  Modules */
 export const MODULES = {
   DASHBOARD: "Dashboard",
-  CHAT: "Chat"
+  CHAT: "Chat",
 };
 
 /* Authentication */

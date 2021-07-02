@@ -21,12 +21,13 @@ import { isEmpty } from "lodash";
 const { Title } = Typography;
 const { Option } = Select;
 
-function Signup() {
+function RestaurantSignup() {
   const {
     state: { authenticated },
   } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [valid, setValid] = useState(false);
   const { push } = useHistory();
   const onFinish = async (values) => {
     const {
@@ -45,7 +46,7 @@ function Signup() {
         password,
         email,
         phoneNumber: `${prefix}${phoneNumber}`,
-        role: "user",
+        role: "admin",
         questionId,
         answer: answer.toLowerCase(),
       };
@@ -56,7 +57,7 @@ function Signup() {
       const { data } = response;
       if (data.uid && !isEmpty(data.uid)) {
         toast({
-          message: "User registered successfully",
+          message: "Restaurant registered successfully",
           type: "success",
         });
         push(ROUTES.LOGIN);
@@ -108,10 +109,39 @@ function Signup() {
     </Form.Item>
   );
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    if (value.toLowerCase() === "group7") {
+      setValid(true);
+    }
+  };
+
+  const AskPassword = () => (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Input.Password
+        prefix={<LockOutlined className="site-form-item-icon" />}
+        type="password"
+        style={{
+          width: 400,
+        }}
+        onChange={handleChange}
+        placeholder="Enter Security Code"
+      />
+    </div>
+  );
+
+  if (!valid) return <AskPassword />;
   return (
     <div className="login">
       <Title level={3} className="sdp-text-strong">
-        Halifax Foodie
+        Restaurant Signup
       </Title>
       <Form
         name="normal_login"
@@ -125,7 +155,7 @@ function Signup() {
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Name"
+            placeholder="Restaurant Name"
           />
         </Form.Item>
         <Form.Item
@@ -226,7 +256,6 @@ function Signup() {
             Register
           </Button>
           <div className="reg-user-actions">
-            <Link to={ROUTES.ADMIN_REGISTER}>Restaurant Signup</Link>
             <Link to={ROUTES.LOGIN}>Already a user!</Link>
           </div>
         </Form.Item>
@@ -235,4 +264,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default RestaurantSignup;
