@@ -8,12 +8,14 @@ export const ROUTES = {
   ADMIN_REGISTER: "/restaurant-signup",
   FORGET_PASSWORD: "/forget-password",
   CHAT: "/chat",
+  PROFILE: "/profile",
 };
 
 /*  Modules */
 export const MODULES = {
   DASHBOARD: "Dashboard",
   CHAT: "Chat",
+  PROFILE: "Profile",
 };
 
 /* Authentication */
@@ -21,6 +23,8 @@ export const TOKEN = "TOKEN";
 export const USER = "USER";
 export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
+export const IMAGE_URL = "IMAGE_URL";
+export const ROLE = "ROLE";
 
 /* Errors */
 

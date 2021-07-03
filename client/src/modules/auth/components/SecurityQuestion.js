@@ -36,6 +36,11 @@ function SecurityQuestion() {
         dispatch({ type: ActionTypes.SET_CURRENT_USER, data: currentUser });
         dispatch({ type: ActionTypes.SET_USER_ID, data: currentUser.uid });
         dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
+        dispatch({ type: ActionTypes.SET_ROLE, data: currentUser.role });
+        dispatch({
+          type: ActionTypes.SET_USER_IMAGE,
+          data: currentUser.imageUrl,
+        });
       }
     } else {
       toast({

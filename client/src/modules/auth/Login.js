@@ -33,6 +33,7 @@ function Login() {
       const { user } = userAuth;
       const token = await user.getIdToken();
       const decoded = jwtDecode(token);
+      console.log(decoded);
       const currentUser = {
         displayName: user.displayName,
         email: user.email,
@@ -41,6 +42,7 @@ function Login() {
         metadata: user.metadata,
         token,
         role: decoded.role,
+        imageUrl: decoded.picture ? decoded.picture : null,
       };
       push(ROUTES.SECURITY_QUESTION, { currentUser });
     } catch (err) {

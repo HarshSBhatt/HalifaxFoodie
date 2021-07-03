@@ -16,6 +16,7 @@ import WechatOutlined from "@ant-design/icons/WechatOutlined";
 //! User Files
 
 import { MODULES, ROUTES } from "common/constants";
+import { UserOutlined } from "@ant-design/icons";
 
 function AppSidebar() {
   const { push } = useHistory();
@@ -59,6 +60,9 @@ function AppSidebar() {
           </Menu.Item>
           <Menu.Item key={ROUTES.CHAT} icon={<WechatOutlined />}>
             <span>{MODULES.CHAT}</span>
+          </Menu.Item>
+          <Menu.Item key={ROUTES.PROFILE} icon={<UserOutlined />}>
+            <span>{MODULES.PROFILE}</span>
           </Menu.Item>
         </Menu>
       </div>
