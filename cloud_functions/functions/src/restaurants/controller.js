@@ -12,7 +12,7 @@ exports.all = async (req, res) => {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(201).json(results);
+      return res.status(200).json(results);
     });
   } catch (err) {
     return handleError(res, err);
@@ -27,7 +27,7 @@ exports.get = async (req, res) => {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(201).json(results);
+      return res.status(200).json(results);
     });
   } catch (err) {
     return handleError(res, err);
@@ -44,7 +44,7 @@ exports.remove = async (req, res) => {
       }
       if (results.affectedRows > 0) {
         await admin.auth().deleteUser(id);
-        return res.status(201).json({
+        return res.status(200).json({
           success: true,
           message: "Deleted successfully",
         });

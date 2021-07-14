@@ -1,5 +1,6 @@
 const { isAuthenticated } = require("../../utils/isAuthenticated");
 const { isAuthorized } = require("../../utils/isAuthorized");
+const { isSameUser } = require("../../utils/isSameUser");
 const { all, get, remove } = require("./controller");
 
 exports.restaurantRoutes = (app) => {
@@ -10,7 +11,8 @@ exports.restaurantRoutes = (app) => {
   // deletes :id user
   app.delete("/restaurants/:id", [
     isAuthenticated,
-    isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
+    isAuthorized({ hasRole: ["admin", "manager"] }),
+    isSameUser,
     remove,
   ]);
 };
