@@ -120,11 +120,15 @@ function RestaurantSignup() {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
       }}
     >
+      <Title level={4} className="sdp-text-strong">
+        Enter Password to access this page
+      </Title>
       <Input.Password
         prefix={<LockOutlined className="site-form-item-icon" />}
         type="password"

@@ -11,6 +11,9 @@ exports.isAuthorized = ({ hasRole, allowSameUser }) => {
 
     if (hasRole.includes(role)) return next();
 
-    return res.status(403).send();
+    return res.status(403).json({
+      success: false,
+      message: "You are not authorized to perform this operation",
+    });
   };
 };
