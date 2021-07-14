@@ -7,13 +7,11 @@ const {
 } = require("./service");
 
 exports.all = async (req, res) => {
-  console.log("Here");
   try {
     getAllRestaurants((err, results) => {
       if (err) {
         return handleError(res, err);
       }
-      console.log(results);
       return res.status(201).json(results);
     });
   } catch (err) {
@@ -57,7 +55,6 @@ exports.remove = async (req, res) => {
       });
     });
   } catch (err) {
-    console.log(err);
     return handleError(res, err);
   }
 };

@@ -13,8 +13,8 @@ const timeout = 60;
 
 exports.createTopic = async (req, res) => {
   if (req.body && req.body.restaurantId && req.body.uid) {
-    console.log("req.body.restaurantId", req.body.restaurantId);
-    console.log("req.body.uid", req.body.uid);
+    // console.log("req.body.restaurantId", req.body.restaurantId);
+    // console.log("req.body.uid", req.body.uid);
     try {
       const topicName = "topic-" + req.body.restaurantId + "-" + req.body.uid;
 
@@ -34,8 +34,8 @@ exports.createTopic = async (req, res) => {
 
 exports.createSubscription = async (req, res) => {
   if (req.body && req.body.restaurantId && req.body.uid) {
-    console.log("req.body.restaurantId", req.body.restaurantId);
-    console.log("req.body.uid", req.body.uid);
+    // console.log("req.body.restaurantId", req.body.restaurantId);
+    // console.log("req.body.uid", req.body.uid);
     try {
       const topicName = req.body.topicName;
       const subscriptionName =
@@ -85,7 +85,7 @@ exports.pullDelivery = (req, res) => {
 exports.pushDelivery = async (req, res) => {
   try {
     let messageResponse = listenForPushMessages(req.body.message.data);
-    console.log("Message: ", messageResponse);
+    // console.log("Message: ", messageResponse);
     return res.status(200).json({
       success: true,
       message: "Message received successfully :)",
