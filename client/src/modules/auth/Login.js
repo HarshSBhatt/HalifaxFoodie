@@ -33,7 +33,6 @@ function Login() {
       const { user } = userAuth;
       const token = await user.getIdToken();
       const decoded = jwtDecode(token);
-      console.log(decoded);
       const currentUser = {
         displayName: user.displayName,
         email: user.email,
