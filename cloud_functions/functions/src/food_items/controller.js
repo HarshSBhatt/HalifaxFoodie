@@ -1,3 +1,4 @@
+const moment = require("moment");
 const { handleError } = require("../../utils/handleError");
 const {
   createFoodItem,
@@ -11,6 +12,7 @@ const {
 
 exports.create = async (req, res) => {
   try {
+    const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
     const restaurantId = req.user.uid;
     const { itemName, price, recipe, featured, ingredients, preparationTime } =
       req.body;
@@ -21,6 +23,8 @@ exports.create = async (req, res) => {
       featured,
       ingredients,
       preparationTime,
+      currentTime,
+      currentTime,
       restaurantId,
     ];
     createFoodItem(foodItemData, async (err, results) => {
@@ -105,6 +109,7 @@ exports.getFeaturedFoodItemsByRestaurant = async (req, res) => {
 
 exports.updateFoodItem = async (req, res) => {
   try {
+    const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
     const { item_id } = req.params;
     const { itemName, price, recipe, featured, ingredients, preparationTime } =
       req.body;
@@ -115,6 +120,7 @@ exports.updateFoodItem = async (req, res) => {
       featured,
       ingredients,
       preparationTime,
+      currentTime,
       item_id,
     ];
     updateFoodItemById(updatedFoodItemData, (err, results) => {
