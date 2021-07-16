@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 //! Ant Imports
@@ -10,15 +10,23 @@ import Sider from "antd/lib/layout/Sider";
 
 import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
-import AppstoreOutlined from "@ant-design/icons/AppstoreOutlined";
-import WechatOutlined from "@ant-design/icons/WechatOutlined";
 
 //! User Files
 
-import { MODULES, ROUTES } from "common/constants";
+import { ROUTES } from "common/constants";
+import { rootSubMenuKeys, siderMenu } from "common/siderRoutes";
+import { AppContext } from "AppContext";
 
 function AppSidebar() {
-  const { push } = useHistory();
+  const {
+    state: { role },
+  } = useContext(AppContext);
+  const {
+    push,
+    location: { pathname },
+  } = useHistory();
+
+  const [openKeys, setOpenKeys] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -28,6 +36,25 @@ function AppSidebar() {
     push(e.key);
   };
 
+  const onOpenChange = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (rootSubMenuKeys.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
+  const renderSider = Object.keys(siderMenu).map((item) => {
+    return (
+      siderMenu[item].allowedRoles.includes(role) && (
+        <Menu.Item key={siderMenu[item].link} icon={siderMenu[item].icon}>
+          <span>{siderMenu[item].label}</span>
+        </Menu.Item>
+      )
+    );
+  });
+
   return (
     <Sider
       trigger={null}
@@ -35,6 +62,13 @@ function AppSidebar() {
       width={250}
       theme="light"
       collapsed={collapsed}
+      style={{
+        overflowY: "auto",
+        overflowX: "hidden",
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+      }}
     >
       <div className="app-layout-sider-header">
         <div
@@ -50,16 +84,13 @@ function AppSidebar() {
         <Menu
           theme="lite"
           mode="inline"
-          //   selectedKeys={[`/${pathname.split("/")[1]}`]}
-          defaultSelectedKeys={[ROUTES.USERS_MANAGEMENT]}
+          openKeys={openKeys}
+          onOpenChange={onOpenChange}
+          selectedKeys={[pathname]}
+          defaultSelectedKeys={[ROUTES.MAIN]}
           onSelect={onMenuSelect}
         >
-          <Menu.Item key={ROUTES.MAIN} icon={<AppstoreOutlined />}>
-            <span>{MODULES.DASHBOARD}</span>
-          </Menu.Item>
-          <Menu.Item key={ROUTES.CHAT} icon={<WechatOutlined />}>
-            <span>{MODULES.CHAT}</span>
-          </Menu.Item>
+          {renderSider}
         </Menu>
       </div>
     </Sider>

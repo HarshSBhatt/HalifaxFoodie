@@ -4,7 +4,7 @@ import { createContext, useReducer } from "react";
 
 import * as ActionTypes from "common/actionTypes";
 import api from "common/api";
-import { TOKEN, USER, USER_ID } from "common/constants";
+import { IMAGE_URL, ROLE, TOKEN, USER, USER_ID } from "common/constants";
 
 const getLoggedInUser = () => {
   let loggedInUser = localStorage.getItem(USER);
@@ -16,9 +16,21 @@ const getUserId = () => {
   return localStorage.getItem(USER_ID) ? localStorage.getItem(USER_ID) : "";
 };
 
+const getRole = () => {
+  return localStorage.getItem(ROLE) ? localStorage.getItem(ROLE) : "user";
+};
+
+const getUserImage = () => {
+  return localStorage.getItem(IMAGE_URL)
+    ? localStorage.getItem(IMAGE_URL)
+    : null;
+};
+
 const initialState = {
   currentUser: getLoggedInUser() || {},
   userId: getUserId(),
+  role: getRole(),
+  userImage: getUserImage(),
   authToken: localStorage.getItem(TOKEN),
   authenticated: false,
 };
@@ -36,6 +48,12 @@ const reducer = (state, action) => {
     case ActionTypes.SET_USER_ID:
       localStorage.setItem(USER_ID, action.data);
       return { ...state, userId: action.data };
+    case ActionTypes.SET_ROLE:
+      localStorage.setItem(ROLE, action.data);
+      return { ...state, role: action.data };
+    case ActionTypes.SET_USER_IMAGE:
+      localStorage.setItem(IMAGE_URL, action.data);
+      return { ...state, userImage: action.data };
     case ActionTypes.SET_AUTHENTICATED:
       return { ...state, authenticated: action.data };
     case ActionTypes.SET_TOKEN:
@@ -82,6 +100,8 @@ function AppContextProvider({ children }) {
     const token = authToken || getToken();
     const user = getCurrentUser();
     const userId = getUserId();
+    const role = getRole();
+    const imageURL = getUserImage();
     if (token) {
       api.defaults.headers.common = {
         Authorization: `Bearer ${token}`,
@@ -90,6 +110,11 @@ function AppContextProvider({ children }) {
       dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
       dispatch({ type: ActionTypes.SET_CURRENT_USER, data: user });
       dispatch({ type: ActionTypes.SET_USER_ID, data: userId });
+      dispatch({ type: ActionTypes.SET_ROLE, data: role });
+      dispatch({
+        type: ActionTypes.SET_USER_IMAGE,
+        data: imageURL,
+      });
     }
   };
 
