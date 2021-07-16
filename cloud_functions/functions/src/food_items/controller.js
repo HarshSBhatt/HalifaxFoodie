@@ -55,7 +55,7 @@ exports.allFoodItems = async (req, res) => {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(201).json(results);
+      return res.status(200).json(results);
     });
   } catch (err) {
     return handleError(res, err);
@@ -70,7 +70,7 @@ exports.getFoodItemById = async (req, res) => {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(201).json(results);
+      return res.status(200).json(results);
     });
   } catch (err) {
     return handleError(res, err);
@@ -85,7 +85,7 @@ exports.getFoodItemsByRestaurant = async (req, res) => {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(201).json(results);
+      return res.status(200).json(results);
     });
   } catch (err) {
     return handleError(res, err);
@@ -100,7 +100,7 @@ exports.getFeaturedFoodItemsByRestaurant = async (req, res) => {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(201).json(results);
+      return res.status(200).json(results);
     });
   } catch (err) {
     return handleError(res, err);

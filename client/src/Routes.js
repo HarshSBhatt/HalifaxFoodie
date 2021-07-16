@@ -1,10 +1,12 @@
 import { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 //! User Files
 
+import * as ActionTypes from "common/actionTypes";
 import { AppContext } from "AppContext";
-import { ROUTES } from "common/constants";
+import { ROUTES, TOKEN } from "common/constants";
 import App from "app/App";
 import Login from "modules/auth/Login";
 import Logout from "modules/auth/Logout";
@@ -15,10 +17,19 @@ import ForgetPassword from "modules/auth/components/ForgetPassword";
 import SecurityQuestion from "modules/auth/components/SecurityQuestion";
 
 const Routes = () => {
-  const { initializeAuth } = useContext(AppContext);
+  const { initializeAuth, dispatch } = useContext(AppContext);
 
   useEffect(() => {
     initializeAuth();
+    if (localStorage.getItem(TOKEN)) {
+      const token = localStorage.getItem(TOKEN);
+      const decoded = jwtDecode(token);
+      const expiresAt = decoded.exp;
+      const currentTime = Date.now();
+      if (expiresAt < currentTime / 1000) {
+        dispatch({ type: ActionTypes.LOGOUT });
+      }
+    }
     // eslint-disable-next-line
   }, []);
 

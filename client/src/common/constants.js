@@ -1,5 +1,6 @@
 /* ROUTERS  */
 export const ROUTES = {
+  /** Common */
   MAIN: "/",
   LOGIN: "/login",
   SECURITY_QUESTION: "/security-question",
@@ -9,6 +10,10 @@ export const ROUTES = {
   FORGET_PASSWORD: "/forget-password",
   CHAT: "/chat",
   PROFILE: "/profile",
+  /** User */
+  RESTAURANTS: "/restaurants",
+  SPECIFIC_RESTAURANT: "/restaurant/:restaurantId",
+  /** Restaurant */
 };
 
 /*  Modules */
@@ -16,6 +21,7 @@ export const MODULES = {
   DASHBOARD: "Dashboard",
   CHAT: "Chat",
   PROFILE: "Profile",
+  RESTAURANTS: "Restaurants",
 };
 
 /* Authentication */

@@ -62,6 +62,13 @@ function AppSidebar() {
       width={250}
       theme="light"
       collapsed={collapsed}
+      style={{
+        overflowY: "auto",
+        overflowX: "hidden",
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+      }}
     >
       <div className="app-layout-sider-header">
         <div

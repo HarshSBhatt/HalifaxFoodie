@@ -10,7 +10,6 @@ import * as ActionTypes from "common/actionTypes";
 import { AppContext } from "AppContext";
 import { toast } from "common/utils";
 import api from "common/api";
-import { config } from "common/config";
 import { auth } from "_firebase";
 import logo from "../../assets/images/placeholder.jpg";
 
@@ -29,7 +28,7 @@ function Profile() {
     formData.append("image", image, image.name);
     setLoading(true);
     api
-      .post(`${config.CLOUD_FUNCTION_URL}/users/image`, formData)
+      .post("/users/image", formData)
       .then((res) => {
         const { imageUrl } = res.data;
         const updatedUser = {
