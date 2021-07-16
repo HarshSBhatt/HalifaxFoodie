@@ -13,6 +13,20 @@ const createUser = (userData, u_role, callBack) => {
   });
 };
 
+const updateImage = (data, u_role, callBack) => {
+  const query =
+    u_role === "admin"
+      ? `update restaurants set photo_url=? where restaurant_id=?`
+      : `update users set photo_url=? where uid=?`;
+  pool.query(query, data, (error, results, fields) => {
+    if (error) {
+      callBack(error);
+    }
+    return callBack(null, results);
+  });
+};
+
 module.exports = {
   createUser,
+  updateImage,
 };

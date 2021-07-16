@@ -15,7 +15,6 @@ import { toast } from "common/utils";
 import { AppContext } from "AppContext";
 import { REGEX, ROUTES } from "common/constants";
 import api from "common/api";
-import { config } from "common/config";
 import { isEmpty } from "lodash";
 
 const { Title } = Typography;
@@ -49,10 +48,7 @@ function Signup() {
         questionId,
         answer: answer.toLowerCase(),
       };
-      const response = await api.post(
-        `${config.CLOUD_FUNCTION_URL}/users`,
-        userDetails
-      );
+      const response = await api.post("/users", userDetails);
       const { data } = response;
       if (data.uid && !isEmpty(data.uid)) {
         toast({
@@ -72,7 +68,7 @@ function Signup() {
 
   const fetchQuestions = async () => {
     try {
-      const response = await api.get(`${config.CLOUD_FUNCTION_URL}/questions`);
+      const response = await api.get("/questions");
       setQuestions(response.data);
     } catch (err) {
       console.log(err);

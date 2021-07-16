@@ -1,5 +1,6 @@
 /* ROUTERS  */
 export const ROUTES = {
+  /** Common */
   MAIN: "/",
   LOGIN: "/login",
   SECURITY_QUESTION: "/security-question",
@@ -8,12 +9,21 @@ export const ROUTES = {
   ADMIN_REGISTER: "/restaurant-signup",
   FORGET_PASSWORD: "/forget-password",
   CHAT: "/chat",
+  PROFILE: "/profile",
+  /** User */
+  RESTAURANTS: "/restaurants",
+  SPECIFIC_RESTAURANT: "/restaurant/:restaurantId",
+  /** Restaurant */
+  MENU: "/admin/restaurant/menu",
 };
 
 /*  Modules */
 export const MODULES = {
   DASHBOARD: "Dashboard",
   CHAT: "Chat",
+  PROFILE: "Profile",
+  RESTAURANTS: "Restaurants",
+  MENU: "Menu",
 };
 
 /* Authentication */
@@ -21,14 +31,16 @@ export const TOKEN = "TOKEN";
 export const USER = "USER";
 export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
+export const IMAGE_URL = "IMAGE_URL";
+export const ROLE = "ROLE";
 
 /* Errors */
 
 export const SERVER_ERROR = "SERVER_ERROR";
 
 export const ROLES = {
-  SUPER_ADMIN: "Super admin",
-  ADMIN: "Admin",
+  USER: "user",
+  ADMIN: "admin",
 };
 
 /* Date and time */

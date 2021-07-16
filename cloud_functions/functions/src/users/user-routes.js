@@ -1,6 +1,13 @@
 const { isAuthenticated } = require("../../utils/isAuthenticated");
 const { isAuthorized } = require("../../utils/isAuthorized");
-const { create, all, get, patch, remove } = require("./controller");
+const {
+  create,
+  all,
+  get,
+  patch,
+  remove,
+  uploadImage,
+} = require("./controller");
 
 exports.userRoutes = (app) => {
   app.post(
@@ -33,4 +40,5 @@ exports.userRoutes = (app) => {
     isAuthorized({ hasRole: ["admin", "manager"] }),
     remove,
   ]);
+  app.post("/users/image", [isAuthenticated, uploadImage]);
 };

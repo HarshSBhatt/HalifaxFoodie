@@ -1,22 +1,32 @@
+import { useContext } from "react";
 import { Route, Switch } from "react-router-dom";
 
 //! User Files
 
-import { ROUTES } from "common/constants";
-import Dashboard from "modules/dashboard";
-import Chat from "modules/chat";
-import Error404 from "Error404";
+import { AppContext } from "AppContext";
+import { routesList } from "common/routesList";
 
 const ContentRoutes = () => {
-  const renderRoutes = (
+  const {
+    state: { role },
+  } = useContext(AppContext);
+
+  return (
     <Switch>
-      <Route path={ROUTES.MAIN} exact component={Dashboard} />
-      <Route path={ROUTES.CHAT} exact component={Chat} />
-      <Route path="*" exact component={Error404} />
+      {routesList.map((route) => {
+        return (
+          route.allowedRoles.includes(role) && (
+            <Route
+              exact
+              path={route.link}
+              render={() => <route.view />}
+              key={route.link}
+            />
+          )
+        );
+      })}
     </Switch>
   );
-
-  return renderRoutes;
 };
 
 export default ContentRoutes;

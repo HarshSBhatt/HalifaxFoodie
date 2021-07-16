@@ -13,7 +13,7 @@ const AppHeader = () => {
   };
   return (
     <Header>
-      <Title level={4}>Header</Title>
+      <Title level={4}>HalifaxFoodie</Title>
       <Button onClick={handleLogout}>Logout</Button>
     </Header>
   );

@@ -15,7 +15,6 @@ import { toast } from "common/utils";
 import { AppContext } from "AppContext";
 import { REGEX, ROUTES } from "common/constants";
 import api from "common/api";
-import { config } from "common/config";
 import { isEmpty } from "lodash";
 
 const { Title } = Typography;
@@ -50,10 +49,7 @@ function RestaurantSignup() {
         questionId,
         answer: answer.toLowerCase(),
       };
-      const response = await api.post(
-        `${config.CLOUD_FUNCTION_URL}/users`,
-        userDetails
-      );
+      const response = await api.post("/users", userDetails);
       const { data } = response;
       if (data.uid && !isEmpty(data.uid)) {
         toast({
@@ -73,7 +69,7 @@ function RestaurantSignup() {
 
   const fetchQuestions = async () => {
     try {
-      const response = await api.get(`${config.CLOUD_FUNCTION_URL}/questions`);
+      const response = await api.get("/questions");
       setQuestions(response.data);
     } catch (err) {
       console.log(err);
@@ -120,11 +116,15 @@ function RestaurantSignup() {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
       }}
     >
+      <Title level={4} className="sdp-text-strong">
+        Enter Password to access this page
+      </Title>
       <Input.Password
         prefix={<LockOutlined className="site-form-item-icon" />}
         type="password"

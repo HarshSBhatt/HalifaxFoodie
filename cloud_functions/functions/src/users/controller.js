@@ -1,7 +1,14 @@
+const BusBoy = require("busboy");
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
+const fs = require("fs");
+const os = require("os");
 const admin = require("firebase-admin");
+const db = admin.firestore();
 const { handleError } = require("../../utils/handleError");
 const { mapQuestionToUser } = require("../questions/service");
-const { createUser } = require("./service");
+const { createUser, updateImage } = require("./service");
+const firebaseConfig = require("../../utils/config");
 
 exports.create = async (req, res) => {
   try {
@@ -138,6 +145,74 @@ exports.remove = async (req, res) => {
   } catch (err) {
     return handleError(res, err);
   }
+};
+
+//! Upload a profile image for user/restaurant
+
+exports.uploadImage = (req, res) => {
+  const busboy = new BusBoy({ headers: req.headers });
+
+  let imageFileName;
+  let imageToBeUploaded = {};
+  let generatedToken = uuidv4();
+
+  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+    const fileType = ["image/jpeg", "image/jpg", "image/png"];
+    if (!fileType.includes(mimetype)) {
+      return res.status(400).json({ error: "Wrong file type submitted" });
+    }
+    //! name.image.png
+    const filenameArray = filename.split(".");
+    const imageExtension = filenameArray[filenameArray.length - 1];
+
+    //! 545615615.png
+    imageFileName = `${Math.round(
+      Math.random() * 1000000000000
+    ).toString()}.${imageExtension}`;
+
+    const filePath = path.join(os.tmpdir(), imageFileName);
+
+    imageToBeUploaded = { filePath, mimetype };
+    file.pipe(fs.createWriteStream(filePath));
+  });
+  busboy.on("finish", () => {
+    admin
+      .storage()
+      .bucket()
+      .upload(imageToBeUploaded.filePath, {
+        resumable: false,
+        metadata: {
+          metadata: {
+            contentType: imageToBeUploaded.mimetype,
+            firebaseStorageDownloadTokens: generatedToken,
+          },
+        },
+      })
+      .then(() => {
+        const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFileName}?alt=media`;
+        const data = [imageUrl, req.user.uid];
+        updateImage(data, req.user.role, async (err, results) => {
+          if (err) {
+            return handleError(res, err);
+          }
+          if (!results) {
+            const error = {
+              code: "Issue to fetch result",
+              message: "Something went wrong",
+            };
+            return handleError(res, error);
+          }
+          return res
+            .status(201)
+            .json({ message: "Image uploaded successfully", imageUrl });
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ error: "Something went wrong" });
+      });
+  });
+  busboy.end(req.rawBody);
 };
 
 const mapUser = (user) => {

@@ -41,6 +41,7 @@ function Login() {
         metadata: user.metadata,
         token,
         role: decoded.role,
+        imageUrl: decoded.picture ? decoded.picture : null,
       };
       push(ROUTES.SECURITY_QUESTION, { currentUser });
     } catch (err) {
