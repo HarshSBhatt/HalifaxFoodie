@@ -31,8 +31,8 @@ export const ROLE = "ROLE";
 export const SERVER_ERROR = "SERVER_ERROR";
 
 export const ROLES = {
-  SUPER_ADMIN: "Super admin",
-  ADMIN: "Admin",
+  USER: "user",
+  ADMIN: "admin",
 };
 
 /* Date and time */
