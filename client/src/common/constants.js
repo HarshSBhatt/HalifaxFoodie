@@ -14,6 +14,7 @@ export const ROUTES = {
   RESTAURANTS: "/restaurants",
   SPECIFIC_RESTAURANT: "/restaurant/:restaurantId",
   /** Restaurant */
+  MENU: "/admin/restaurant/menu",
 };
 
 /*  Modules */
@@ -22,6 +23,7 @@ export const MODULES = {
   CHAT: "Chat",
   PROFILE: "Profile",
   RESTAURANTS: "Restaurants",
+  MENU: "Menu",
 };
 
 /* Authentication */

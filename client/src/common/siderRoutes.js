@@ -5,6 +5,7 @@ import {
   AppstoreOutlined,
   WechatOutlined,
   ShopOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 
 //! User Files
@@ -37,5 +38,11 @@ export const siderMenu = {
     label: MODULES.RESTAURANTS,
     allowedRoles: [ROLES.USER],
     icon: <ShopOutlined />,
+  },
+  Menu: {
+    link: ROUTES.MENU,
+    label: MODULES.MENU,
+    allowedRoles: [ROLES.ADMIN],
+    icon: <FileTextOutlined />,
   },
 };

@@ -3,6 +3,7 @@ import Chat from "modules/chat";
 import Dashboard from "modules/dashboard";
 import Profile from "modules/profile";
 import Restaurants from "modules/restaurants";
+import FoodMenu from "modules/admin/menu";
 import SpecificRestaurant from "modules/restaurants/components/SpecificRestaurant";
 import { MODULES, ROLES, ROUTES } from "./constants";
 
@@ -36,6 +37,12 @@ export const routesList = [
     label: MODULES.RESTAURANTS,
     view: SpecificRestaurant,
     allowedRoles: [ROLES.USER],
+  },
+  {
+    link: ROUTES.MENU,
+    label: MODULES.MENU,
+    view: FoodMenu,
+    allowedRoles: [ROLES.ADMIN],
   },
   {
     link: "*",
