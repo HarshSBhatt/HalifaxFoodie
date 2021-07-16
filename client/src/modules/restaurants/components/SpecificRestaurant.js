@@ -21,7 +21,7 @@ function SpecificRestaurant() {
   const [restaurantFoodItems, setRestaurantFoodItems] = useState([]);
 
   const params = useParams();
-  const restaurantId = params.restaurantId;
+  const restaurantId = params?.restaurantId;
 
   const fetchRestaurantDetails = async () => {
     setLoading(true);

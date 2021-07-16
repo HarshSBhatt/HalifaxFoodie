@@ -1,19 +1,82 @@
+import { useContext, useState } from "react";
+
 //! Ant Imports
 
 import { List, Card } from "antd";
 
+//! User Files
+
+import { AppContext } from "AppContext";
+import Featured from "./components/Featured";
+import { ROLES } from "common/constants";
+import api from "common/api";
+import { toast } from "common/utils";
+
 function FoodItems({ restaurantFoodItems }) {
+  // TODO: Add and Delete Food Item by Admin Only
+  const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
+  const {
+    state: { role, userId },
+  } = useContext(AppContext);
+
+  const handleFeaturedClick = async (itemData) => {
+    const updatedItem = {
+      itemName: itemData.item_name,
+      price: itemData.price,
+      recipe: itemData.recipe,
+      featured: !itemData.featured,
+      ingredients: itemData.ingredients,
+      preparationTime: itemData.preparation_time,
+    };
+    try {
+      const response = await api.patch(
+        `/food-item/${itemData.item_id}/restaurant/${userId}`,
+        updatedItem
+      );
+      const { data } = response;
+      toast({
+        message: data.message,
+        type: "success",
+      });
+
+      const duplicateFoodItemArray = [...foodItems];
+
+      const foodIndex = duplicateFoodItemArray.findIndex(
+        (foodItem) => foodItem.item_id === itemData.item_id
+      );
+      duplicateFoodItemArray[foodIndex] = {
+        ...itemData,
+        featured: !itemData.featured,
+      };
+      setFoodItems(duplicateFoodItemArray);
+    } catch (error) {
+      toast({
+        message: "Something went wrong",
+        type: "error",
+      });
+    } finally {
+    }
+  };
+
   return (
     <Card>
       <List
         className="mx-1"
         itemLayout="vertical"
         size="large"
-        dataSource={restaurantFoodItems}
+        dataSource={foodItems}
         locale={{ emptyText: "This restaurant is not serving at the moment" }}
         renderItem={(item) => (
           <List.Item
             key={item.item_id}
+            actions={[
+              role === ROLES.ADMIN && (
+                <Featured
+                  itemData={item}
+                  handleFeaturedClick={handleFeaturedClick}
+                />
+              ),
+            ]}
             extra={
               <img
                 width={272}
