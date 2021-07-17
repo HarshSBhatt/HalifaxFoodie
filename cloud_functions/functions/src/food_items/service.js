@@ -12,7 +12,7 @@ const createFoodItem = (foodItemData, callBack) => {
 
 const getAllFoodItems = (callBack) => {
   pool.query(
-    `select * from food_items order by updated_at desc`,
+    `select * from food_items fi inner join restaurants r on fi.restaurant_id = r.restaurant_id order by updated_at desc`,
     [],
     (error, results, fields) => {
       if (error) {
