@@ -8,6 +8,7 @@ import { List, Card } from "antd";
 
 import { AppContext } from "AppContext";
 import Featured from "./components/Featured";
+import DeleteItem from "./components/DeleteItem";
 import { ROLES } from "common/constants";
 import api from "common/api";
 import { toast } from "common/utils";
@@ -15,11 +16,14 @@ import { toast } from "common/utils";
 function FoodItems({ restaurantFoodItems }) {
   // TODO: Add and Delete Food Item by Admin Only
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const {
     state: { role, userId },
   } = useContext(AppContext);
 
   const handleFeaturedClick = async (itemData) => {
+    setUpdateLoading(true);
     const updatedItem = {
       itemName: itemData.item_name,
       price: itemData.price,
@@ -55,6 +59,31 @@ function FoodItems({ restaurantFoodItems }) {
         type: "error",
       });
     } finally {
+      setUpdateLoading(false);
+    }
+  };
+
+  const handleDeleteItem = async (itemData) => {
+    setDeleteLoading(true);
+    try {
+      const response = await api.delete(
+        `/food-item/${itemData.item_id}/restaurant/${userId}`
+      );
+      const { data } = response;
+      toast({
+        message: data.message,
+        type: "success",
+      });
+      setFoodItems(
+        foodItems.filter((foodItem) => foodItem.item_id !== itemData.item_id)
+      );
+    } catch (error) {
+      toast({
+        message: "Something went wrong",
+        type: "error",
+      });
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -74,6 +103,14 @@ function FoodItems({ restaurantFoodItems }) {
                 <Featured
                   itemData={item}
                   handleFeaturedClick={handleFeaturedClick}
+                  updateLoading={updateLoading}
+                />
+              ),
+              role === ROLES.ADMIN && (
+                <DeleteItem
+                  itemData={item}
+                  handleDeleteItem={handleDeleteItem}
+                  deleteLoading={deleteLoading}
                 />
               ),
             ]}
