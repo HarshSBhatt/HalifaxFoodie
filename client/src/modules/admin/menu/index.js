@@ -7,6 +7,7 @@ import api from "common/api";
 import { toast } from "common/utils";
 import Loading from "components/Loading";
 import FoodItems from "modules/food_items";
+import AddItem from "./components/AddItem";
 
 function FoodMenu() {
   const {
@@ -50,7 +51,8 @@ function FoodMenu() {
   if (error) return <div>Something went wrong</div>;
 
   return (
-    <div>
+    <div className="menu-wrapper">
+      <AddItem />
       <FoodItems restaurantFoodItems={restaurantFoodItems} />
     </div>
   );

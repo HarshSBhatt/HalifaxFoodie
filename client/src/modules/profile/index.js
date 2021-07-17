@@ -18,7 +18,7 @@ function Profile() {
     state: { currentUser, userImage },
     dispatch,
   } = useContext(AppContext);
-  console.log(userImage);
+
   const [loading, setLoading] = useState(false);
   const displayName = currentUser?.displayName;
 

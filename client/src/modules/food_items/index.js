@@ -14,7 +14,6 @@ import api from "common/api";
 import { toast } from "common/utils";
 
 function FoodItems({ restaurantFoodItems }) {
-  // TODO: Add and Delete Food Item by Admin Only
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
