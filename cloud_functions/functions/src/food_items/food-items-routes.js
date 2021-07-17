@@ -21,7 +21,7 @@ exports.foodItemRoutes = (app) => {
   ]);
   // lists all food item
   app.get("/food-item", [isAuthenticated, allFoodItems]);
-  // get food items by restaurant id
+  // get food items by item id
   app.get("/food-item/item/:item_id", [isAuthenticated, getFoodItemById]);
   // get food items by restaurant id
   app.get("/food-item/restaurant/:restaurant_id", [

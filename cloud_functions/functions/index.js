@@ -8,6 +8,7 @@ const { questionRoutes } = require("./src/questions/question-routes");
 const { chatRoutes } = require("./src/chat/chat-routes");
 const { restaurantRoutes } = require("./src/restaurants/restaurants-routes");
 const { foodItemRoutes } = require("./src/food_items/food-items-routes");
+const { orderRoutes } = require("./src/orders/order-routes");
 
 const app = express();
 
@@ -18,5 +19,6 @@ questionRoutes(app);
 chatRoutes(app);
 restaurantRoutes(app);
 foodItemRoutes(app);
+orderRoutes(app);
 
 exports.api = functions.https.onRequest(app);
