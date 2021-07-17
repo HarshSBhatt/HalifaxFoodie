@@ -13,7 +13,7 @@ import { ROLES } from "common/constants";
 import api from "common/api";
 import { toast } from "common/utils";
 
-function FoodItems({ restaurantFoodItems }) {
+function FoodItems({ restaurantFoodItems, isUser }) {
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -122,7 +122,11 @@ function FoodItems({ restaurantFoodItems }) {
             }
           >
             <List.Item.Meta
-              title={<span className="sdp-text-strong">{item.item_name}</span>}
+              title={
+                <span className="sdp-text-strong">
+                  {item.item_name} {isUser && `| ${item.restaurant_name}`}
+                </span>
+              }
               description={item.recipe}
             />
             <div className="px">{item.ingredients}</div>
