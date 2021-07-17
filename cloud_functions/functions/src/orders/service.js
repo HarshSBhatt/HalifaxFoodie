@@ -40,7 +40,7 @@ const getOrderByOrderId = (data, callBack) => {
 
 const getOrdersByRestaurantId = (data, callBack) => {
   pool.query(
-    `select * from orders o inner join users u on o.user_id = u.uid inner join restaurants r on o.restaurant_id = r.restaurant_id where o.user_id = ? order by o.updated_at desc`,
+    `select * from orders o inner join users u on o.user_id = u.uid inner join restaurants r on o.restaurant_id = r.restaurant_id where o.restaurant_id = ? order by o.updated_at desc`,
     data,
     (error, results, fields) => {
       if (error) {
