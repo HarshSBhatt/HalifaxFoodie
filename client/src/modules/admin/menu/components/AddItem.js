@@ -1,10 +1,22 @@
 import { useContext, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Input, Modal, Form, Checkbox } from "antd";
+import isEmpty from "lodash/isEmpty";
+
+//! Ant Icons
+
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+
+//! Ant Imports
+
+import { Button, Input, Modal, Form, Checkbox, Typography } from "antd";
+
+//! User Files
+
 import { REGEX } from "common/constants";
 import api from "common/api";
 import { AppContext } from "AppContext";
 import { toast } from "common/utils";
+
+const { Title } = Typography;
 
 function AddItem() {
   const {
@@ -13,6 +25,7 @@ function AddItem() {
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [featured, setFeatured] = useState(false);
+  const [foodImage, setFoodImage] = useState({});
 
   const [form] = Form.useForm();
 
@@ -25,29 +38,44 @@ function AddItem() {
   };
 
   const handleDishCreate = async (values) => {
-    values.featured = featured;
-    setConfirmLoading(true);
-    try {
-      const response = await api.post(
-        `/food-item/restaurant/${userId}`,
-        values
-      );
-      const { data } = response;
+    if (isEmpty(foodImage?.name)) {
       toast({
-        message: data.message,
-        type: "success",
-      });
-      setVisible(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } catch (err) {
-      toast({
-        message: err.response.data.message,
+        message: "Please upload image of the food item",
         type: "error",
       });
-    } finally {
-      setConfirmLoading(false);
+    } else {
+      values.featured = featured;
+      setConfirmLoading(true);
+      try {
+        const response = await api.post(
+          `/food-item/restaurant/${userId}`,
+          values
+        );
+        const { data } = response;
+        const insertedId = data.itemId;
+        const formData = new FormData();
+        formData.append("foodImage", foodImage, foodImage.name);
+        const foodImageResponse = await api.post(
+          `food-item/${insertedId}/image`,
+          formData
+        );
+        const { data: foodImageUploadData } = foodImageResponse;
+        toast({
+          message: foodImageUploadData.message,
+          type: "success",
+        });
+        setVisible(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } catch (err) {
+        toast({
+          message: err.message,
+          type: "error",
+        });
+      } finally {
+        setConfirmLoading(false);
+      }
     }
   };
 
@@ -66,12 +94,29 @@ function AddItem() {
     setVisible(false);
   };
 
-  const title = <span className="sdp-text-strong">Add new food item</span>;
+  const handleUpload = (e) => {
+    const fileInput = document.getElementById("foodImageInput");
+    fileInput.click();
+  };
 
+  const onChange = (e) => {
+    // TODO: If size is greater than 3 MB, throw Error
+    const image = e.target.files[0];
+    setFoodImage(image);
+  };
+
+  const handleChangeImage = () => {
+    setFoodImage({});
+  };
+
+  const title = <span className="sdp-text-strong">Add new food item</span>;
   return (
     <div className="add-item">
+      <Title level={4} className="sdp-text-strong ml-1">
+        Menu
+      </Title>
       <Button icon={<PlusOutlined />} onClick={showModal} type="primary">
-        Add Dish
+        ADD DISH
       </Button>
       <Modal
         title={title}
@@ -155,6 +200,23 @@ function AddItem() {
           >
             <Input />
           </Form.Item>
+          <div className="mx-1">
+            <input type="file" id="foodImageInput" hidden onChange={onChange} />
+            {isEmpty(foodImage?.name) ? (
+              <Button icon={<UploadOutlined />} onClick={handleUpload}>
+                Upload Food Image
+              </Button>
+            ) : (
+              <>
+                <span className="sdp-text-strong mr-1">
+                  Uploaded {foodImage.name}
+                </span>
+                <Button type="dashed" onClick={handleChangeImage}>
+                  Click to change
+                </Button>
+              </>
+            )}
+          </div>
           <Form.Item>
             <Checkbox checked={featured} onChange={onCheckboxChange}>
               Featured

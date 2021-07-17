@@ -9,6 +9,7 @@ const {
   getFeaturedFoodItemsByRestaurant,
   removeFoodItem,
   updateFoodItem,
+  uploadFoodItemImage,
 } = require("./controller");
 
 exports.foodItemRoutes = (app) => {
@@ -47,4 +48,5 @@ exports.foodItemRoutes = (app) => {
     isSameUser,
     removeFoodItem,
   ]);
+  app.post("/food-item/:item_id/image", [isAuthenticated, uploadFoodItemImage]);
 };

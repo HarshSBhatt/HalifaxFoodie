@@ -114,6 +114,14 @@
   margin-bottom: 1rem;
 }
 
+.mr-1 {
+  margin-right: 1rem;
+}
+
+.ml-1 {
+  margin-left: 0.5rem;
+}
+
 .px {
   padding: 0.5rem 0;
 }
@@ -132,8 +140,12 @@
   flex-direction: column;
   .add-item {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin: 1rem 0;
+    .ant-typography {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -145,4 +157,10 @@
 
 .u-logo {
   width: 200px;
+}
+
+.food-photos {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
 }

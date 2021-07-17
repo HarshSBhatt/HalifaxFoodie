@@ -88,6 +88,16 @@ const deleteFoodItem = (data, callBack) => {
   );
 };
 
+const updateFoodItemImage = (data, callBack) => {
+  const query = `update food_items set food_photo_url=? where item_id = ?`;
+  pool.query(query, data, (error, results, fields) => {
+    if (error) {
+      callBack(error);
+    }
+    return callBack(null, results);
+  });
+};
+
 module.exports = {
   createFoodItem,
   getAllFoodItems,
@@ -96,4 +106,5 @@ module.exports = {
   getFeaturedFoodItemsByRestaurantId,
   updateFoodItemById,
   deleteFoodItem,
+  updateFoodItemImage,
 };

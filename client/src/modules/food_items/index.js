@@ -12,6 +12,7 @@ import DeleteItem from "./components/DeleteItem";
 import { ROLES } from "common/constants";
 import api from "common/api";
 import { toast } from "common/utils";
+import logo from "../../assets/images/placeholder.jpg";
 
 function FoodItems({ restaurantFoodItems, isUser }) {
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
@@ -115,9 +116,9 @@ function FoodItems({ restaurantFoodItems, isUser }) {
             ]}
             extra={
               <img
-                width={272}
+                className="food-photos"
                 alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                src={item.food_photo_url ? item.food_photo_url : logo}
               />
             }
           >
