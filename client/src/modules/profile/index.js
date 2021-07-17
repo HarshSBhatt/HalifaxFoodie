@@ -18,6 +18,7 @@ function Profile() {
     state: { currentUser, userImage },
     dispatch,
   } = useContext(AppContext);
+  console.log(userImage);
   const [loading, setLoading] = useState(false);
   const displayName = currentUser?.displayName;
 
@@ -82,7 +83,7 @@ function Profile() {
           width={200}
           height={200}
           alt={displayName}
-          src={userImage ? userImage : logo}
+          src={userImage !== "null" ? userImage : logo}
         />
         <input type="file" id="imageInput" hidden onChange={onChange} />
         <Tooltip placement="top" title="Change Profile Picture">
