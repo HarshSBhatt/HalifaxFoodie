@@ -12,9 +12,10 @@ export const ROUTES = {
   PROFILE: "/profile",
   /** User */
   RESTAURANTS: "/restaurants",
+  USER_FOOD_MENU: "/restaurants/food-menu",
   SPECIFIC_RESTAURANT: "/restaurant/:restaurantId",
   /** Restaurant */
-  MENU: "/admin/restaurant/menu",
+  FOOD_MENU: "/admin/restaurant/food-menu",
 };
 
 /*  Modules */
@@ -23,7 +24,8 @@ export const MODULES = {
   CHAT: "Chat",
   PROFILE: "Profile",
   RESTAURANTS: "Restaurants",
-  MENU: "Menu",
+  FOOD_MENU: "Menu",
+  USER_FOOD_MENU: "Explore Menu",
 };
 
 /* Authentication */

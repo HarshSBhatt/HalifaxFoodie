@@ -40,9 +40,15 @@ export const siderMenu = {
     icon: <ShopOutlined />,
   },
   Menu: {
-    link: ROUTES.MENU,
-    label: MODULES.MENU,
+    link: ROUTES.FOOD_MENU,
+    label: MODULES.FOOD_MENU,
     allowedRoles: [ROLES.ADMIN],
+    icon: <FileTextOutlined />,
+  },
+  "Explore Dishes": {
+    link: ROUTES.USER_FOOD_MENU,
+    label: MODULES.USER_FOOD_MENU,
+    allowedRoles: [ROLES.USER],
     icon: <FileTextOutlined />,
   },
 };
