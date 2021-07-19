@@ -17,6 +17,7 @@ export const ROUTES = {
   ORDER_PAGE: "/order/:orderId",
   /** Restaurant */
   FOOD_MENU: "/admin/restaurant/food-menu",
+  ORDERS: "/orders/all",
 };
 
 /*  Modules */
@@ -28,6 +29,7 @@ export const MODULES = {
   FOOD_MENU: "Menu",
   USER_FOOD_MENU: "Explore Menu",
   ORDER_PAGE: "Order",
+  ORDERS: "Orders",
 };
 
 /* Authentication */

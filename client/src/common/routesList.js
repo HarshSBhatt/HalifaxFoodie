@@ -8,6 +8,7 @@ import SpecificRestaurant from "modules/restaurants/components/SpecificRestauran
 import { MODULES, ROLES, ROUTES } from "./constants";
 import UserFoodMenu from "modules/menu";
 import ParticularOrder from "modules/orders/components/ParticularOrder";
+import MyOrders from "modules/orders";
 
 export const routesList = [
   {
@@ -57,6 +58,12 @@ export const routesList = [
     label: MODULES.ORDER_PAGE,
     view: ParticularOrder,
     allowedRoles: [ROLES.USER],
+  },
+  {
+    link: ROUTES.ORDERS,
+    label: MODULES.ORDERS,
+    view: MyOrders,
+    allowedRoles: [ROLES.USER, ROLES.ADMIN],
   },
   {
     link: "*",

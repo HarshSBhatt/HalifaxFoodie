@@ -6,6 +6,7 @@ import {
   WechatOutlined,
   ShopOutlined,
   FileTextOutlined,
+  ContainerOutlined,
 } from "@ant-design/icons";
 
 //! User Files
@@ -50,5 +51,11 @@ export const siderMenu = {
     label: MODULES.USER_FOOD_MENU,
     allowedRoles: [ROLES.USER],
     icon: <FileTextOutlined />,
+  },
+  Orders: {
+    link: ROUTES.ORDERS,
+    label: MODULES.ORDERS,
+    allowedRoles: [ROLES.USER, ROLES.ADMIN],
+    icon: <ContainerOutlined />,
   },
 };
