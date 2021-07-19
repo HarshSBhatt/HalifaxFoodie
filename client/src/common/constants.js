@@ -35,6 +35,7 @@ export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
 export const IMAGE_URL = "IMAGE_URL";
 export const ROLE = "ROLE";
+export const CART = "CART";
 
 /* Errors */
 

@@ -13,6 +13,7 @@ import { ROLES } from "common/constants";
 import api from "common/api";
 import { toast } from "common/utils";
 import logo from "../../assets/images/placeholder.jpg";
+import AddToCart from "./components/AddToCart";
 
 function FoodItems({ restaurantFoodItems, isUser }) {
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
@@ -98,22 +99,22 @@ function FoodItems({ restaurantFoodItems, isUser }) {
         renderItem={(item) => (
           <List.Item
             key={item.item_id}
-            actions={[
-              role === ROLES.ADMIN && (
-                <Featured
-                  itemData={item}
-                  handleFeaturedClick={handleFeaturedClick}
-                  updateLoading={updateLoading}
-                />
-              ),
-              role === ROLES.ADMIN && (
-                <DeleteItem
-                  itemData={item}
-                  handleDeleteItem={handleDeleteItem}
-                  deleteLoading={deleteLoading}
-                />
-              ),
-            ]}
+            actions={
+              role === ROLES.ADMIN
+                ? [
+                    <Featured
+                      itemData={item}
+                      handleFeaturedClick={handleFeaturedClick}
+                      updateLoading={updateLoading}
+                    />,
+                    <DeleteItem
+                      itemData={item}
+                      handleDeleteItem={handleDeleteItem}
+                      deleteLoading={deleteLoading}
+                    />,
+                  ]
+                : [<AddToCart itemData={item} />]
+            }
             extra={
               <img
                 className="food-photos"

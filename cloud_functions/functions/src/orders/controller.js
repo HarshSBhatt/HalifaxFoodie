@@ -19,13 +19,9 @@ exports.createOrder = async (req, res) => {
     const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
 
     const userId = req.user.uid;
-    const { restaurantId, orderItems } = req.body;
+    const { orderAmount, restaurantId, orderItems } = req.body;
 
     if (orderItems && orderItems.length > 0) {
-      const orderAmount = sumBy(orderItems, (orderItem) => {
-        return orderItem.total_price;
-      });
-
       const orderData = [
         orderAmount,
         orderStatus,
@@ -52,8 +48,8 @@ exports.createOrder = async (req, res) => {
           orderItemData.push([
             orderItem.quantity,
             orderItem.price,
-            orderItem.total_price,
-            orderItem.item_id,
+            orderItem.totalPrice,
+            orderItem.itemId,
             lastInsertedId,
           ])
         );
