@@ -12,9 +12,12 @@ export const ROUTES = {
   PROFILE: "/profile",
   /** User */
   RESTAURANTS: "/restaurants",
+  USER_FOOD_MENU: "/restaurants/food-menu",
   SPECIFIC_RESTAURANT: "/restaurant/:restaurantId",
+  ORDER_PAGE: "/order/:orderId",
   /** Restaurant */
-  MENU: "/admin/restaurant/menu",
+  FOOD_MENU: "/admin/restaurant/food-menu",
+  ORDERS: "/orders/all",
 };
 
 /*  Modules */
@@ -23,7 +26,10 @@ export const MODULES = {
   CHAT: "Chat",
   PROFILE: "Profile",
   RESTAURANTS: "Restaurants",
-  MENU: "Menu",
+  FOOD_MENU: "Menu",
+  USER_FOOD_MENU: "Explore Menu",
+  ORDER_PAGE: "Order",
+  ORDERS: "Orders",
 };
 
 /* Authentication */
@@ -33,6 +39,7 @@ export const ADMIN = "ADMIN";
 export const USER_ID = "USER_ID";
 export const IMAGE_URL = "IMAGE_URL";
 export const ROLE = "ROLE";
+export const CART = "CART";
 
 /* Errors */
 
@@ -41,6 +48,12 @@ export const SERVER_ERROR = "SERVER_ERROR";
 export const ROLES = {
   USER: "user",
   ADMIN: "admin",
+};
+
+export const ORDER_STATUS = {
+  PREPARING: "Preparing",
+  DISPATCHED: "Dispatched",
+  DELIVERED: "Delivered",
 };
 
 /* Date and time */

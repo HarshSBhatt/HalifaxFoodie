@@ -26,7 +26,6 @@ function RestaurantDetail({ restaurantDetail, dishesOffered }) {
               {restaurantDetail?.phone_number}
             </a>
           </Descriptions.Item>
-
           <Descriptions.Item label="Effective Time">
             {moment(restaurantDetail?.created_at).format(
               "MMMM Do YYYY, h:mm:ss a"

@@ -8,18 +8,23 @@ import { List, Card } from "antd";
 
 import { AppContext } from "AppContext";
 import Featured from "./components/Featured";
+import DeleteItem from "./components/DeleteItem";
 import { ROLES } from "common/constants";
 import api from "common/api";
 import { toast } from "common/utils";
+import logo from "../../assets/images/placeholder.jpg";
+import AddToCart from "./components/AddToCart";
 
-function FoodItems({ restaurantFoodItems }) {
-  // TODO: Add and Delete Food Item by Admin Only
+function FoodItems({ restaurantFoodItems, isUser, isOrderPage }) {
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const {
     state: { role, userId },
   } = useContext(AppContext);
 
   const handleFeaturedClick = async (itemData) => {
+    setUpdateLoading(true);
     const updatedItem = {
       itemName: itemData.item_name,
       price: itemData.price,
@@ -55,6 +60,31 @@ function FoodItems({ restaurantFoodItems }) {
         type: "error",
       });
     } finally {
+      setUpdateLoading(false);
+    }
+  };
+
+  const handleDeleteItem = async (itemData) => {
+    setDeleteLoading(true);
+    try {
+      const response = await api.delete(
+        `/food-item/${itemData.item_id}/restaurant/${userId}`
+      );
+      const { data } = response;
+      toast({
+        message: data.message,
+        type: "success",
+      });
+      setFoodItems(
+        foodItems.filter((foodItem) => foodItem.item_id !== itemData.item_id)
+      );
+    } catch (error) {
+      toast({
+        message: "Something went wrong",
+        type: "error",
+      });
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -69,24 +99,36 @@ function FoodItems({ restaurantFoodItems }) {
         renderItem={(item) => (
           <List.Item
             key={item.item_id}
-            actions={[
-              role === ROLES.ADMIN && (
-                <Featured
-                  itemData={item}
-                  handleFeaturedClick={handleFeaturedClick}
-                />
-              ),
-            ]}
+            actions={
+              role === ROLES.ADMIN
+                ? [
+                    <Featured
+                      itemData={item}
+                      handleFeaturedClick={handleFeaturedClick}
+                      updateLoading={updateLoading}
+                    />,
+                    <DeleteItem
+                      itemData={item}
+                      handleDeleteItem={handleDeleteItem}
+                      deleteLoading={deleteLoading}
+                    />,
+                  ]
+                : [!isOrderPage && <AddToCart itemData={item} />]
+            }
             extra={
               <img
-                width={272}
+                className="food-photos"
                 alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                src={item.food_photo_url ? item.food_photo_url : logo}
               />
             }
           >
             <List.Item.Meta
-              title={<span className="sdp-text-strong">{item.item_name}</span>}
+              title={
+                <span className="sdp-text-strong">
+                  {item.item_name} {isUser && `| ${item.restaurant_name}`}
+                </span>
+              }
               description={item.recipe}
             />
             <div className="px">{item.ingredients}</div>

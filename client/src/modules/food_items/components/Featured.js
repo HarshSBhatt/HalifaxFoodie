@@ -1,20 +1,23 @@
 //! Ant Imports
 
-import { Space } from "antd";
+import { Button, Space } from "antd";
 
 //! Ant Icons
 
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 
-function Featured({ itemData, handleFeaturedClick }) {
+function Featured({ itemData, handleFeaturedClick, updateLoading }) {
   const IconText = ({ text }) => (
     <Space>
-      <div
-        style={{ cursor: "pointer" }}
+      <Button
+        type="ghost"
+        size="small"
+        shape="circle"
+        disabled={updateLoading}
         onClick={() => handleFeaturedClick(itemData)}
       >
         {itemData.featured ? <StarFilled /> : <StarOutlined />}
-      </div>
+      </Button>
       {text}
     </Space>
   );

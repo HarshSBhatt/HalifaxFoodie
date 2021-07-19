@@ -4,7 +4,6 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const admin = require("firebase-admin");
-const db = admin.firestore();
 const { handleError } = require("../../utils/handleError");
 const { mapQuestionToUser } = require("../questions/service");
 const { createUser, updateImage } = require("./service");
