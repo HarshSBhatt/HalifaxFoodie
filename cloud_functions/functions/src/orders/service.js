@@ -38,6 +38,19 @@ const getOrderByOrderId = (data, callBack) => {
   );
 };
 
+const getOrderItemsByOrderId = (data, callBack) => {
+  pool.query(
+    `select * from order_items oi inner join orders o on oi.order_id = o.order_id inner join food_items fi on fi.item_id = oi.item_id inner join restaurants r on o.restaurant_id = r.restaurant_id where oi.order_id = ?`,
+    data,
+    (error, results, fields) => {
+      if (error) {
+        callBack(error);
+      }
+      return callBack(null, results);
+    }
+  );
+};
+
 const getOrdersByRestaurantId = (data, callBack) => {
   pool.query(
     `select * from orders o inner join users u on o.user_id = u.uid inner join restaurants r on o.restaurant_id = r.restaurant_id where o.restaurant_id = ? order by o.updated_at desc`,
@@ -94,6 +107,7 @@ module.exports = {
   createOrder,
   createOrderItems,
   getOrderByOrderId,
+  getOrderItemsByOrderId,
   getOrdersByRestaurantId,
   getOrdersByUserId,
   updateOrder,

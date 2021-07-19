@@ -15,7 +15,7 @@ import { toast } from "common/utils";
 import logo from "../../assets/images/placeholder.jpg";
 import AddToCart from "./components/AddToCart";
 
-function FoodItems({ restaurantFoodItems, isUser }) {
+function FoodItems({ restaurantFoodItems, isUser, isOrderPage }) {
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -113,7 +113,7 @@ function FoodItems({ restaurantFoodItems, isUser }) {
                       deleteLoading={deleteLoading}
                     />,
                   ]
-                : [<AddToCart itemData={item} />]
+                : [!isOrderPage && <AddToCart itemData={item} />]
             }
             extra={
               <img

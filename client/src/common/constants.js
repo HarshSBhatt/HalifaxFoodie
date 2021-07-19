@@ -48,6 +48,12 @@ export const ROLES = {
   ADMIN: "admin",
 };
 
+export const ORDER_STATUS = {
+  PREPARING: "Preparing",
+  DISPATCHED: "Dispatched",
+  DELIVERED: "Delivered",
+};
+
 /* Date and time */
 export const defaultDateFormat = "MM/DD/YYYY";
 

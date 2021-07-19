@@ -10,11 +10,12 @@ const {
   getOrdersByUserId,
   updateOrder,
   deleteOrder,
+  getOrderItemsByOrderId,
 } = require("./service");
 
 exports.createOrder = async (req, res) => {
   try {
-    const orderStatus = "IN_PROGRESS";
+    const orderStatus = "PREPARING";
     const orderItemData = [];
     const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
 
@@ -91,7 +92,21 @@ exports.getOrderByOrderId = async (req, res) => {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(200).json(results);
+      if (!results) {
+        const error = {
+          code: "Issue to fetch result",
+          message: "Something went wrong",
+        };
+        return handleError(res, error);
+      }
+      const orderDetails = results[0];
+      getOrderItemsByOrderId(data, (err, results) => {
+        if (err) {
+          return handleError(res, err);
+        }
+        orderDetails.orderItems = results;
+        return res.status(200).json(orderDetails);
+      });
     });
   } catch (err) {
     return handleError(res, err);
