@@ -96,7 +96,7 @@ function AddToCart({ itemData }) {
         addToCart(itemId);
       } else {
         toast({
-          message: "Currently we are taking orders of 1 restaurant at a time",
+          message: "Currently we are taking orders of one restaurant at a time",
           type: "info",
         });
       }

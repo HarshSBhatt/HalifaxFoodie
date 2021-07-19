@@ -67,6 +67,7 @@ exports.createOrder = async (req, res) => {
           return res.status(201).json({
             success: true,
             message: "Order placed successfully",
+            orderId: lastInsertedId,
             item: req.body,
           });
         });

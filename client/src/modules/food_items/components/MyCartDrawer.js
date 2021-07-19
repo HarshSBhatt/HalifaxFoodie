@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
 //! Ant Imports
@@ -10,12 +11,17 @@ import { List, Avatar, Button, Drawer } from "antd";
 import * as ActionTypes from "common/actionTypes";
 import { AppContext } from "AppContext";
 import { DeleteFilled, MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import api from "common/api";
+import { toast } from "common/utils";
 
 function MyCartDrawer({ onClose, visible }) {
   const {
     state: { cart },
     dispatch,
   } = useContext(AppContext);
+
+  const [loading, setLoading] = useState(false);
+  const { push } = useHistory();
 
   const removeItem = (id) => {
     const updatedCart = cart.filter((item) => item.itemId !== id);
@@ -54,14 +60,44 @@ function MyCartDrawer({ onClose, visible }) {
     return orderItem.totalPrice;
   });
 
+  const handleOrder = async () => {
+    const orderData = {
+      orderAmount,
+      restaurantId: cart[0].restaurantId,
+      orderItems: cart,
+    };
+    setLoading(true);
+    try {
+      const response = await api.post("/orders", orderData);
+      const { data } = response;
+      const { message, orderId } = data;
+      onClose();
+      dispatch({ type: ActionTypes.SET_CART, data: [] });
+      toast({
+        message,
+        type: "success",
+      });
+      push(`/order/${orderId}`);
+    } catch (err) {
+      toast({
+        message: err.message,
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const title = <span className="sdp-text-strong">My Cart</span>;
-  const footer = (
+  const footer = cart.length > 0 && (
     <div className="flex item-center justify-space-between">
       <div>
         <span className="sdp-text-strong">Total: </span>
         <span>${orderAmount}</span>
       </div>
-      <Button type="primary">Order</Button>
+      <Button type="primary" onClick={handleOrder} loading={loading}>
+        Order
+      </Button>
     </div>
   );
 
@@ -77,6 +113,7 @@ function MyCartDrawer({ onClose, visible }) {
       <List
         itemLayout="horizontal"
         dataSource={cart}
+        locale={{ emptyText: "Your cart is empty!" }}
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
