@@ -4,7 +4,7 @@ import _ from "lodash";
 
 //! Ant Imports
 
-import { List, Avatar, Button, Drawer } from "antd";
+import { List, Avatar, Button, Drawer, Input } from "antd";
 
 //! User Files
 
@@ -13,6 +13,8 @@ import { AppContext } from "AppContext";
 import { DeleteFilled, MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import api from "common/api";
 import { toast } from "common/utils";
+import { discountCodes } from "common/constants";
+const { Search } = Input;
 
 function MyCartDrawer({ onClose, visible }) {
   const {
@@ -22,8 +24,10 @@ function MyCartDrawer({ onClose, visible }) {
 
   const [loading, setLoading] = useState(false);
   const { push } = useHistory();
+  const [discount, setDiscount] = useState(1);
 
   const removeItem = (id) => {
+    setDiscount(1);
     const updatedCart = cart.filter((item) => item.itemId !== id);
     dispatch({ type: ActionTypes.SET_CART, data: updatedCart });
   };
@@ -56,9 +60,12 @@ function MyCartDrawer({ onClose, visible }) {
     }
   };
 
-  const orderAmount = _.sumBy(cart, (orderItem) => {
-    return orderItem.totalPrice;
-  });
+  const orderAmount = (
+    discount *
+    _.sumBy(cart, (orderItem) => {
+      return orderItem.totalPrice;
+    })
+  ).toFixed(2);
 
   const handleOrder = async () => {
     const orderData = {
@@ -88,12 +95,40 @@ function MyCartDrawer({ onClose, visible }) {
     }
   };
 
+  const onSearch = (value) => {
+    const resultDiscountCode = discountCodes.map(({ code }) => code);
+    if (resultDiscountCode.includes(value.toUpperCase())) {
+      const index = _.findIndex(discountCodes, function (coupon) {
+        return coupon.code === value.toUpperCase();
+      });
+      toast({
+        message: "Coupon applied successfully",
+        type: "success",
+      });
+      setDiscount((100 - discountCodes[index].discount) / 100);
+    } else {
+      toast({
+        message: "No coupon found",
+        type: "error",
+      });
+    }
+  };
+
   const title = <span className="sdp-text-strong">My Cart</span>;
+
   const footer = cart.length > 0 && (
     <div className="flex item-center justify-space-between">
       <div>
         <span className="sdp-text-strong">Total: </span>
         <span>${orderAmount}</span>
+      </div>
+      <div>
+        <Search
+          placeholder="Discount Coupon"
+          allowClear
+          enterButton="Apply"
+          onSearch={onSearch}
+        />
       </div>
       <Button type="primary" onClick={handleOrder} loading={loading}>
         Order
@@ -105,7 +140,7 @@ function MyCartDrawer({ onClose, visible }) {
     <Drawer
       title={title}
       placement="right"
-      width={500}
+      width={550}
       onClose={onClose}
       visible={visible}
       footer={footer}
@@ -157,12 +192,12 @@ function MyCartDrawer({ onClose, visible }) {
                     </div>
                     <div className="px">
                       <span className="sdp-text-strong">Item Total: </span>$
-                      {item.totalPrice}
+                      {(discount * item.totalPrice).toFixed(2)}
                     </div>
                   </div>
                   <div className="px">
                     <span className="sdp-text-strong">Price: </span>$
-                    {item.price}
+                    {(discount * item.price).toFixed(2)}
                   </div>
                 </div>
               }

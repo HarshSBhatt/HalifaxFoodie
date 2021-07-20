@@ -47,6 +47,17 @@ export const CART = "CART";
 
 export const SERVER_ERROR = "SERVER_ERROR";
 
+export const discountCodes = [
+  {
+    code: "FREE60",
+    discount: 60,
+  },
+  {
+    code: "SUNDAY10",
+    discount: 10,
+  },
+];
+
 export const ROLES = {
   USER: "user",
   ADMIN: "admin",

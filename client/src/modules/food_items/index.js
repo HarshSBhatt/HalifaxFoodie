@@ -100,7 +100,7 @@ function FoodItems({ restaurantFoodItems, isUser, isOrderPage }) {
           <List.Item
             key={item.item_id}
             actions={
-              role === ROLES.ADMIN
+              role === ROLES.ADMIN && !isOrderPage
                 ? [
                     <Featured
                       itemData={item}

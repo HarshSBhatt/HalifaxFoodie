@@ -125,10 +125,10 @@ function ParticularOrder() {
     role === ROLES.USER ? (
       userId === uid ? (
         <>
-          <div className="mx-1 sdp-text-strong heading">Review</div>
-          <Card>
-            {orderReview.given ? (
-              <>
+          {orderReview.given ? (
+            <>
+              <div className="mx-1 sdp-text-strong heading">Review</div>
+              <Card>
                 <span>
                   <Rate
                     disabled
@@ -137,37 +137,42 @@ function ParticularOrder() {
                   />
                 </span>
                 <div className="mt-1">{orderReview.review.comment}</div>
-              </>
-            ) : (
+              </Card>
+            </>
+          ) : (
+            orderStatus === "DELIVERED" && (
               <>
-                <span>
-                  <Rate
-                    tooltips={desc}
-                    onChange={handleRatingChange}
-                    value={rating}
+                <div className="mx-1 sdp-text-strong heading">Review</div>
+                <Card>
+                  <span>
+                    <Rate
+                      tooltips={desc}
+                      onChange={handleRatingChange}
+                      value={rating}
+                    />
+                  </span>
+                  <Input.TextArea
+                    className="mt-1"
+                    placeholder="Write your review here..."
+                    rows={6}
+                    onChange={handleUserReview}
                   />
-                </span>
-                <Input.TextArea
-                  className="mt-1"
-                  placeholder="Write your review here..."
-                  rows={6}
-                  onChange={handleUserReview}
-                />
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Button
-                    style={{ width: 200 }}
-                    loading={reviewLoading}
-                    type="primary"
-                    htmlType="submit"
-                    className="login-form-button"
-                    onClick={handleSubmitReview}
-                  >
-                    Review
-                  </Button>
-                </div>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Button
+                      style={{ width: 200 }}
+                      loading={reviewLoading}
+                      type="primary"
+                      htmlType="submit"
+                      className="login-form-button"
+                      onClick={handleSubmitReview}
+                    >
+                      Review
+                    </Button>
+                  </div>
+                </Card>
               </>
-            )}
-          </Card>
+            )
+          )}
         </>
       ) : (
         <>

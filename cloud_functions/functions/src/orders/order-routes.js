@@ -29,9 +29,9 @@ exports.orderRoutes = (app) => {
   ]);
   // get orders by user id
   app.get("/orders/user/:id", [
-    isAuthenticated,
-    isAuthorized({ hasRole: ["user"] }),
-    isSameUser,
+    // isAuthenticated,
+    // isAuthorized({ hasRole: ["user"] }),
+    // isSameUser,
     getOrdersByUser,
   ]);
   // update order
