@@ -11,6 +11,7 @@ const {
   updateOrder,
   deleteOrder,
   getOrderItemsByOrderId,
+  getOrderStatus,
 } = require("./service");
 
 exports.createOrder = async (req, res) => {
@@ -186,6 +187,30 @@ exports.deleteOrder = async (req, res) => {
       return res.status(401).json({
         success: true,
         message: "Please check the order id",
+      });
+    });
+  } catch (err) {
+    return handleError(res, err);
+  }
+};
+
+exports.getOrderStatusByOrderId = async (req, res) => {
+  try {
+    const { order_id } = req.params;
+    const data = [order_id];
+    getOrderStatus(data, (err, results) => {
+      if (err) {
+        return handleError(res, err);
+      }
+      if (!results || results.length === 0) {
+        return res.status(401).json({
+          success: true,
+          message: "Please check the order id",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        order_status: results[0].order_status,
       });
     });
   } catch (err) {

@@ -9,6 +9,7 @@ import { MODULES, ROLES, ROUTES } from "./constants";
 import UserFoodMenu from "modules/menu";
 import ParticularOrder from "modules/orders/components/ParticularOrder";
 import MyOrders from "modules/orders";
+import TrackOrder from "modules/track_order";
 
 export const routesList = [
   {
@@ -57,13 +58,19 @@ export const routesList = [
     link: ROUTES.ORDER_PAGE,
     label: MODULES.ORDER_PAGE,
     view: ParticularOrder,
-    allowedRoles: [ROLES.USER],
+    allowedRoles: [ROLES.USER, ROLES.ADMIN],
   },
   {
     link: ROUTES.ORDERS,
     label: MODULES.ORDERS,
     view: MyOrders,
     allowedRoles: [ROLES.USER, ROLES.ADMIN],
+  },
+  {
+    link: ROUTES.TRACK_ORDER,
+    label: MODULES.TRACK_ORDER,
+    view: TrackOrder,
+    allowedRoles: [ROLES.USER],
   },
   {
     link: "*",

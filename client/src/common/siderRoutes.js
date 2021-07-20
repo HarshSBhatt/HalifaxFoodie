@@ -7,6 +7,7 @@ import {
   ShopOutlined,
   FileTextOutlined,
   ContainerOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 
 //! User Files
@@ -57,5 +58,11 @@ export const siderMenu = {
     label: MODULES.ORDERS,
     allowedRoles: [ROLES.USER, ROLES.ADMIN],
     icon: <ContainerOutlined />,
+  },
+  "Track Orders": {
+    link: ROUTES.TRACK_ORDER,
+    label: MODULES.TRACK_ORDER,
+    allowedRoles: [ROLES.USER],
+    icon: <SearchOutlined />,
   },
 };

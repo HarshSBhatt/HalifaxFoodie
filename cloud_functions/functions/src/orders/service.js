@@ -103,6 +103,19 @@ const deleteOrder = (data, callBack) => {
   );
 };
 
+const getOrderStatus = (data, callBack) => {
+  pool.query(
+    `select order_status from orders where order_id = ?`,
+    data,
+    (error, results, fields) => {
+      if (error) {
+        callBack(error);
+      }
+      return callBack(null, results);
+    }
+  );
+};
+
 module.exports = {
   createOrder,
   createOrderItems,
@@ -112,4 +125,5 @@ module.exports = {
   getOrdersByUserId,
   updateOrder,
   deleteOrder,
+  getOrderStatus,
 };
