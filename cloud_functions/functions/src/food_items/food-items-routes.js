@@ -9,6 +9,7 @@ const {
   getFeaturedFoodItemsByRestaurant,
   removeFoodItem,
   updateFoodItem,
+  uploadFoodItemImage,
 } = require("./controller");
 
 exports.foodItemRoutes = (app) => {
@@ -21,7 +22,7 @@ exports.foodItemRoutes = (app) => {
   ]);
   // lists all food item
   app.get("/food-item", [isAuthenticated, allFoodItems]);
-  // get food items by restaurant id
+  // get food items by item id
   app.get("/food-item/item/:item_id", [isAuthenticated, getFoodItemById]);
   // get food items by restaurant id
   app.get("/food-item/restaurant/:restaurant_id", [
@@ -47,4 +48,5 @@ exports.foodItemRoutes = (app) => {
     isSameUser,
     removeFoodItem,
   ]);
+  app.post("/food-item/:item_id/image", [isAuthenticated, uploadFoodItemImage]);
 };

@@ -4,7 +4,7 @@ import { createContext, useReducer } from "react";
 
 import * as ActionTypes from "common/actionTypes";
 import api from "common/api";
-import { IMAGE_URL, ROLE, TOKEN, USER, USER_ID } from "common/constants";
+import { CART, IMAGE_URL, ROLE, TOKEN, USER, USER_ID } from "common/constants";
 
 const getLoggedInUser = () => {
   let loggedInUser = localStorage.getItem(USER);
@@ -20,6 +20,12 @@ const getRole = () => {
   return localStorage.getItem(ROLE) ? localStorage.getItem(ROLE) : "user";
 };
 
+const getCart = () => {
+  let cart = localStorage.getItem(CART);
+  cart = cart ? JSON.parse(cart) : null;
+  return cart;
+};
+
 const getUserImage = () => {
   return localStorage.getItem(IMAGE_URL)
     ? localStorage.getItem(IMAGE_URL)
@@ -32,6 +38,7 @@ const initialState = {
   role: getRole(),
   userImage: getUserImage(),
   authToken: localStorage.getItem(TOKEN),
+  cart: getCart() || [],
   authenticated: false,
 };
 
@@ -62,6 +69,9 @@ const reducer = (state, action) => {
       };
       localStorage.setItem(TOKEN, action.data);
       return { ...state, authToken: action.data };
+    case ActionTypes.SET_CART:
+      localStorage.setItem(CART, JSON.stringify(action.data));
+      return { ...state, cart: action.data };
     //! LOGOUT
     case ActionTypes.LOGOUT:
       delete api.defaults.headers.common.Authorization;
@@ -101,6 +111,7 @@ function AppContextProvider({ children }) {
     const user = getCurrentUser();
     const userId = getUserId();
     const role = getRole();
+    const cart = getCart();
     const imageURL = getUserImage();
     if (token) {
       api.defaults.headers.common = {
@@ -111,6 +122,7 @@ function AppContextProvider({ children }) {
       dispatch({ type: ActionTypes.SET_CURRENT_USER, data: user });
       dispatch({ type: ActionTypes.SET_USER_ID, data: userId });
       dispatch({ type: ActionTypes.SET_ROLE, data: role });
+      dispatch({ type: ActionTypes.SET_CART, data: cart });
       dispatch({
         type: ActionTypes.SET_USER_IMAGE,
         data: imageURL,

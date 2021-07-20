@@ -19,6 +19,7 @@ function SpecificRestaurant() {
   const [error, setError] = useState(false);
   const [restaurantDetail, setRestaurantDetail] = useState({});
   const [restaurantFoodItems, setRestaurantFoodItems] = useState([]);
+  const [featuredFoodItems, setFeaturedFoodItems] = useState([]);
 
   const params = useParams();
   const restaurantId = params?.restaurantId;
@@ -41,8 +42,19 @@ function SpecificRestaurant() {
         }
       );
       const { data: restaurantFoodDetail } = restaurantFoodData;
+
+      const featuredFoodData = await api.get(
+        `/food-item/featured/restaurant/${restaurantId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      const { data: featuredFoodDetail } = featuredFoodData;
       setRestaurantDetail(restaurantDetail[0]);
       setRestaurantFoodItems(restaurantFoodDetail);
+      setFeaturedFoodItems(featuredFoodDetail);
     } catch (error) {
       setError(true);
       toast({
@@ -67,7 +79,13 @@ function SpecificRestaurant() {
         restaurantDetail={restaurantDetail}
         dishesOffered={restaurantFoodItems.length}
       />
-      <div className="mb-1 sdp-text-strong heading">Dishes</div>
+      {featuredFoodItems.length > 0 && (
+        <>
+          <div className="mb-1 sdp-text-strong heading">Featured Dishes</div>
+          <FoodItems restaurantFoodItems={featuredFoodItems} />
+        </>
+      )}
+      <div className="mx-1 sdp-text-strong heading">Dishes</div>
       <FoodItems restaurantFoodItems={restaurantFoodItems} />
     </div>
   );

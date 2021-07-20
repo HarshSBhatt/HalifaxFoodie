@@ -6,13 +6,9 @@ import { useHistory } from "react-router-dom";
 import Menu from "antd/lib/menu";
 import Sider from "antd/lib/layout/Sider";
 
-//! Ant Icons
-
-import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
-import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
-
 //! User Files
 
+import logo from "../../../assets/images/dalhousie.jpg";
 import { ROUTES } from "common/constants";
 import { rootSubMenuKeys, siderMenu } from "common/siderRoutes";
 import { AppContext } from "AppContext";
@@ -27,10 +23,6 @@ function AppSidebar() {
   } = useHistory();
 
   const [openKeys, setOpenKeys] = useState([]);
-  const [collapsed, setCollapsed] = useState(false);
-  const toggle = () => {
-    setCollapsed(!collapsed);
-  };
 
   const onMenuSelect = (e) => {
     push(e.key);
@@ -61,7 +53,6 @@ function AppSidebar() {
       collapsible
       width={250}
       theme="light"
-      collapsed={collapsed}
       style={{
         overflowY: "auto",
         overflowX: "hidden",
@@ -70,15 +61,8 @@ function AppSidebar() {
         left: 0,
       }}
     >
-      <div className="app-layout-sider-header">
-        <div
-          className={`${
-            collapsed ? "app-icon-btn-collapsed" : "app-icon-btn-open"
-          } app-icon-btn`}
-          onClick={toggle}
-        >
-          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        </div>
+      <div className="app-layout-sider-header d-flex">
+        <img className="u-logo" src={logo} alt="Halifax Foodie" />
       </div>
       <div className="app-sidebar-content">
         <Menu

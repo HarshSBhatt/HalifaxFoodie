@@ -12,7 +12,7 @@ const createFoodItem = (foodItemData, callBack) => {
 
 const getAllFoodItems = (callBack) => {
   pool.query(
-    `select * from food_items order by updated_at desc`,
+    `select * from food_items fi inner join restaurants r on fi.restaurant_id = r.restaurant_id order by fi.updated_at desc`,
     [],
     (error, results, fields) => {
       if (error) {
@@ -38,7 +38,7 @@ const getFoodItemById = (data, callBack) => {
 
 const getFoodItemsByRestaurantId = (data, callBack) => {
   pool.query(
-    `select * from food_items fi inner join restaurants r on fi.restaurant_id = r.restaurant_id where fi.restaurant_id = ? order by updated_at desc`,
+    `select * from food_items fi inner join restaurants r on fi.restaurant_id = r.restaurant_id where fi.restaurant_id = ? order by fi.updated_at desc`,
     data,
     (error, results, fields) => {
       if (error) {
@@ -51,7 +51,7 @@ const getFoodItemsByRestaurantId = (data, callBack) => {
 
 const getFeaturedFoodItemsByRestaurantId = (data, callBack) => {
   pool.query(
-    `select * from food_items fi inner join restaurants r on fi.restaurant_id = r.restaurant_id where fi.restaurant_id = ? and fi.featured = true order by updated_at desc limit 5`,
+    `select * from food_items fi inner join restaurants r on fi.restaurant_id = r.restaurant_id where fi.restaurant_id = ? and fi.featured = true order by fi.updated_at desc limit 5`,
     data,
     (error, results, fields) => {
       if (error) {
@@ -88,6 +88,16 @@ const deleteFoodItem = (data, callBack) => {
   );
 };
 
+const updateFoodItemImage = (data, callBack) => {
+  const query = `update food_items set food_photo_url=? where item_id = ?`;
+  pool.query(query, data, (error, results, fields) => {
+    if (error) {
+      callBack(error);
+    }
+    return callBack(null, results);
+  });
+};
+
 module.exports = {
   createFoodItem,
   getAllFoodItems,
@@ -96,4 +106,5 @@ module.exports = {
   getFeaturedFoodItemsByRestaurantId,
   updateFoodItemById,
   deleteFoodItem,
+  updateFoodItemImage,
 };
