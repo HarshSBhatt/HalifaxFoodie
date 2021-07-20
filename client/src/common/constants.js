@@ -15,6 +15,7 @@ export const ROUTES = {
   USER_FOOD_MENU: "/restaurants/food-menu",
   SPECIFIC_RESTAURANT: "/restaurant/:restaurantId",
   ORDER_PAGE: "/order/:orderId",
+  TRACK_ORDER: "/track-order",
   /** Restaurant */
   FOOD_MENU: "/admin/restaurant/food-menu",
   ORDERS: "/orders/all",
@@ -30,6 +31,7 @@ export const MODULES = {
   USER_FOOD_MENU: "Explore Menu",
   ORDER_PAGE: "Order",
   ORDERS: "Orders",
+  TRACK_ORDER: "Track Order",
 };
 
 /* Authentication */

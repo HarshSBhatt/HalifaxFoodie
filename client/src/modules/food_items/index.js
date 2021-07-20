@@ -126,7 +126,8 @@ function FoodItems({ restaurantFoodItems, isUser, isOrderPage }) {
             <List.Item.Meta
               title={
                 <span className="sdp-text-strong">
-                  {item.item_name} {isUser && `| ${item.restaurant_name}`}
+                  {item.item_name} {isUser && `| ${item.restaurant_name}`}{" "}
+                  {isOrderPage && `x ${item.quantity}`}
                 </span>
               }
               description={item.recipe}
@@ -134,6 +135,9 @@ function FoodItems({ restaurantFoodItems, isUser, isOrderPage }) {
             <div className="px">{item.ingredients}</div>
             <div className="px">Preparation Time: {item.preparation_time}</div>
             <div className="px">Price: ${item.price}</div>
+            {isOrderPage && (
+              <div className="px">Item Total: ${item.total_price}</div>
+            )}
           </List.Item>
         )}
       />

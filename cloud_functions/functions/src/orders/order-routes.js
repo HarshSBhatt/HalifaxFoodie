@@ -8,6 +8,7 @@ const {
   getOrdersByUser,
   updateOrder,
   deleteOrder,
+  getOrderStatusByOrderId,
 } = require("./controller");
 
 exports.orderRoutes = (app) => {
@@ -46,5 +47,10 @@ exports.orderRoutes = (app) => {
     isAuthorized({ hasRole: ["admin", "manager"] }),
     isSameUser,
     deleteOrder,
+  ]);
+  // get order status
+  app.get("/orders/:order_id/track", [
+    isAuthenticated,
+    getOrderStatusByOrderId,
   ]);
 };
