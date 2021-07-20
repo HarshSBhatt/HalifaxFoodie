@@ -57,7 +57,7 @@ export const routesList = [
     link: ROUTES.ORDER_PAGE,
     label: MODULES.ORDER_PAGE,
     view: ParticularOrder,
-    allowedRoles: [ROLES.USER],
+    allowedRoles: [ROLES.USER, ROLES.ADMIN],
   },
   {
     link: ROUTES.ORDERS,
