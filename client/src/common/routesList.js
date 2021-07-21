@@ -1,6 +1,6 @@
 import Error404 from "Error404";
 import Chat from "modules/chat";
-import Dashboard from "modules/dashboard";
+// import Dashboard from "modules/dashboard";
 import Profile from "modules/profile";
 import Restaurants from "modules/restaurants";
 import FoodMenu from "modules/admin/menu";
@@ -12,11 +12,23 @@ import MyOrders from "modules/orders";
 import TrackOrder from "modules/track_order";
 
 export const routesList = [
+  // {
+  //   link: ROUTES.MAIN,
+  //   label: MODULES.DASHBOARD,
+  //   view: Dashboard,
+  //   allowedRoles: [ROLES.USER, ROLES.ADMIN],
+  // },
   {
     link: ROUTES.MAIN,
     label: MODULES.DASHBOARD,
-    view: Dashboard,
-    allowedRoles: [ROLES.USER, ROLES.ADMIN],
+    view: FoodMenu,
+    allowedRoles: [ROLES.ADMIN],
+  },
+  {
+    link: ROUTES.MAIN,
+    label: MODULES.DASHBOARD,
+    view: UserFoodMenu,
+    allowedRoles: [ROLES.USER],
   },
   {
     link: ROUTES.CHAT,
@@ -40,18 +52,6 @@ export const routesList = [
     link: ROUTES.SPECIFIC_RESTAURANT,
     label: MODULES.RESTAURANTS,
     view: SpecificRestaurant,
-    allowedRoles: [ROLES.USER],
-  },
-  {
-    link: ROUTES.FOOD_MENU,
-    label: MODULES.FOOD_MENU,
-    view: FoodMenu,
-    allowedRoles: [ROLES.ADMIN],
-  },
-  {
-    link: ROUTES.USER_FOOD_MENU,
-    label: MODULES.USER_FOOD_MENU,
-    view: UserFoodMenu,
     allowedRoles: [ROLES.USER],
   },
   {
