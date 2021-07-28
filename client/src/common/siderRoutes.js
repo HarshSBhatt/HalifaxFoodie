@@ -8,6 +8,7 @@ import {
   // FileTextOutlined,
   ContainerOutlined,
   SearchOutlined,
+  CloudOutlined,
 } from "@ant-design/icons";
 
 //! User Files
@@ -53,6 +54,12 @@ export const siderMenu = {
   //   allowedRoles: [ROLES.USER],
   //   icon: <FileTextOutlined />,
   // },
+  "Word Cloud": {
+    link: ROUTES.WORD_CLOUD,
+    label: MODULES.WORD_CLOUD,
+    allowedRoles: [ROLES.USER, ROLES.ADMIN],
+    icon: <CloudOutlined />,
+  },
   Orders: {
     link: ROUTES.ORDERS,
     label: MODULES.ORDERS,
