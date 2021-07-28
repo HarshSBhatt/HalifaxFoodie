@@ -27,11 +27,15 @@ function WordCloud() {
         uppercase: false,
       },
     };
-    const response = await api.request(options);
+    try {
+      const response = await api.request(options);
 
-    const { data } = response;
+      const { data } = response;
 
-    setSrc(data);
+      setSrc(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchDishes = async () => {
@@ -44,7 +48,7 @@ function WordCloud() {
 
       const dishesText = data?.length ? data.join(" ") : "";
 
-      fetchWordCloud(dishesText);
+      await fetchWordCloud(dishesText);
     } catch (error) {
       console.log(error);
     } finally {

@@ -2,7 +2,11 @@ import { useState } from "react";
 
 //! Ant Imports
 
-import { Button, Modal } from "antd";
+import { Button, Modal, List } from "antd";
+
+//! Ant Icons
+
+import { LoadingOutlined } from "@ant-design/icons";
 
 //! User Files
 
@@ -12,6 +16,7 @@ function SimilarItem({ itemData }) {
   const [loading, setLoading] = useState(false);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -39,7 +44,7 @@ function SimilarItem({ itemData }) {
       );
 
       const { data } = response;
-      console.log(data);
+      setSuggestions(data.message || []);
     } catch (error) {
       console.log(error);
     } finally {
@@ -58,7 +63,21 @@ function SimilarItem({ itemData }) {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        {loading ? "Loading..." : "Loaded"}
+        <List
+          loading={{ spinning: loading, indicator: <LoadingOutlined /> }}
+          itemLayout="horizontal"
+          dataSource={suggestions}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                title={
+                  <span className="sdp-text-strong">{item.food_item}</span>
+                }
+                description={item.cuisine.toUpperCase()}
+              />
+            </List.Item>
+          )}
+        />
       </Modal>
     </div>
   );
