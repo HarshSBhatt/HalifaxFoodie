@@ -62,6 +62,7 @@ function SimilarItem({ itemData }) {
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        className="similar-recipe"
       >
         <List
           loading={{ spinning: loading, indicator: <LoadingOutlined /> }}
