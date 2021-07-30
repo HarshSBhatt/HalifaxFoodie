@@ -5,9 +5,10 @@ import {
   AppstoreOutlined,
   WechatOutlined,
   ShopOutlined,
-  FileTextOutlined,
+  // FileTextOutlined,
   ContainerOutlined,
   SearchOutlined,
+  CloudOutlined,
 } from "@ant-design/icons";
 
 //! User Files
@@ -41,17 +42,23 @@ export const siderMenu = {
     allowedRoles: [ROLES.USER],
     icon: <ShopOutlined />,
   },
-  Menu: {
-    link: ROUTES.FOOD_MENU,
-    label: MODULES.FOOD_MENU,
-    allowedRoles: [ROLES.ADMIN],
-    icon: <FileTextOutlined />,
-  },
-  "Explore Dishes": {
-    link: ROUTES.USER_FOOD_MENU,
-    label: MODULES.USER_FOOD_MENU,
-    allowedRoles: [ROLES.USER],
-    icon: <FileTextOutlined />,
+  // Menu: {
+  //   link: ROUTES.FOOD_MENU,
+  //   label: MODULES.FOOD_MENU,
+  //   allowedRoles: [ROLES.ADMIN],
+  //   icon: <FileTextOutlined />,
+  // },
+  // "Explore Dishes": {
+  //   link: ROUTES.USER_FOOD_MENU,
+  //   label: MODULES.USER_FOOD_MENU,
+  //   allowedRoles: [ROLES.USER],
+  //   icon: <FileTextOutlined />,
+  // },
+  "Word Cloud": {
+    link: ROUTES.WORD_CLOUD,
+    label: MODULES.WORD_CLOUD,
+    allowedRoles: [ROLES.USER, ROLES.ADMIN],
+    icon: <CloudOutlined />,
   },
   Orders: {
     link: ROUTES.ORDERS,

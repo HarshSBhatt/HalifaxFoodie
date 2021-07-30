@@ -94,7 +94,6 @@ function MyOrders() {
       dataIndex: "order_status",
       key: "order_status",
       render: (order_status, record) => {
-        console.log(order_status);
         let color = "volcano";
         if (ORDER_STATUS[order_status] === ORDER_STATUS.DELIVERED) {
           color = "green";

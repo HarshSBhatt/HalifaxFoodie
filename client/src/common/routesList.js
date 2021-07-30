@@ -1,6 +1,6 @@
 import Error404 from "Error404";
 import Chat from "modules/chat";
-import Dashboard from "modules/dashboard";
+// import Dashboard from "modules/dashboard";
 import Profile from "modules/profile";
 import Restaurants from "modules/restaurants";
 import FoodMenu from "modules/admin/menu";
@@ -10,13 +10,26 @@ import UserFoodMenu from "modules/menu";
 import ParticularOrder from "modules/orders/components/ParticularOrder";
 import MyOrders from "modules/orders";
 import TrackOrder from "modules/track_order";
+import WordCloud from "modules/wordcloud";
 
 export const routesList = [
+  // {
+  //   link: ROUTES.MAIN,
+  //   label: MODULES.DASHBOARD,
+  //   view: Dashboard,
+  //   allowedRoles: [ROLES.USER, ROLES.ADMIN],
+  // },
   {
     link: ROUTES.MAIN,
     label: MODULES.DASHBOARD,
-    view: Dashboard,
-    allowedRoles: [ROLES.USER, ROLES.ADMIN],
+    view: FoodMenu,
+    allowedRoles: [ROLES.ADMIN],
+  },
+  {
+    link: ROUTES.MAIN,
+    label: MODULES.DASHBOARD,
+    view: UserFoodMenu,
+    allowedRoles: [ROLES.USER],
   },
   {
     link: ROUTES.CHAT,
@@ -43,18 +56,6 @@ export const routesList = [
     allowedRoles: [ROLES.USER],
   },
   {
-    link: ROUTES.FOOD_MENU,
-    label: MODULES.FOOD_MENU,
-    view: FoodMenu,
-    allowedRoles: [ROLES.ADMIN],
-  },
-  {
-    link: ROUTES.USER_FOOD_MENU,
-    label: MODULES.USER_FOOD_MENU,
-    view: UserFoodMenu,
-    allowedRoles: [ROLES.USER],
-  },
-  {
     link: ROUTES.ORDER_PAGE,
     label: MODULES.ORDER_PAGE,
     view: ParticularOrder,
@@ -71,6 +72,12 @@ export const routesList = [
     label: MODULES.TRACK_ORDER,
     view: TrackOrder,
     allowedRoles: [ROLES.USER],
+  },
+  {
+    link: ROUTES.WORD_CLOUD,
+    label: MODULES.WORD_CLOUD,
+    view: WordCloud,
+    allowedRoles: [ROLES.USER, ROLES.ADMIN],  
   },
   {
     link: "*",
