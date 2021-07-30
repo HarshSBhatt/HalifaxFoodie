@@ -14,6 +14,7 @@ import api from "common/api";
 import { toast } from "common/utils";
 import logo from "../../assets/images/placeholder.jpg";
 import AddToCart from "./components/AddToCart";
+import SimilarItem from "./components/SimilarItem";
 
 function FoodItems({ restaurantFoodItems, isUser, isOrderPage }) {
   const [foodItems, setFoodItems] = useState(restaurantFoodItems || []);
@@ -113,7 +114,10 @@ function FoodItems({ restaurantFoodItems, isUser, isOrderPage }) {
                       deleteLoading={deleteLoading}
                     />,
                   ]
-                : [!isOrderPage && <AddToCart itemData={item} />]
+                : [
+                    !isOrderPage && <AddToCart itemData={item} />,
+                    !isOrderPage && <SimilarItem itemData={item} />,
+                  ]
             }
             extra={
               <img

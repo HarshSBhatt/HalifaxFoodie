@@ -19,6 +19,7 @@ export const ROUTES = {
   /** Restaurant */
   FOOD_MENU: "/admin/restaurant/food-menu",
   ORDERS: "/orders/all",
+  WORD_CLOUD: "/wordcloud"
 };
 
 /*  Modules */
@@ -32,6 +33,7 @@ export const MODULES = {
   ORDER_PAGE: "Order",
   ORDERS: "Orders",
   TRACK_ORDER: "Track Order",
+  WORD_CLOUD: "Food Word Cloud"
 };
 
 /* Authentication */
